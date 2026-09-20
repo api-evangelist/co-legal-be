@@ -1,0 +1,23 @@
+generated: '2026-09-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: co-legal.be
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 24 12:29:50 2026 GMT
+  hsts: true
+  hsts_max_age: 15552000
+- host: agent.co-legal.be
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  7 14:24:28 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+domains:
+- domain: co-legal.be
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

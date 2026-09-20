@@ -1,0 +1,75 @@
+generated: '2026-09-19'
+method: probed
+source: https://agent.co-legal.be/a2a/jsonrpc
+probed: true
+docs:
+- https://co-legal.be/llms.txt
+- https://agent.co-legal.be/llms.txt
+format: json-rpc-2.0-error
+envelope:
+  media_type: application/json
+  shape: >-
+    JSON-RPC 2.0 error object {code, message, data[]} where data[] carries one google.rpc.ErrorInfo
+    {"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":<UPPER_SNAKE>,"domain":"a2a-protocol.org","metadata":{}}.
+    The machine-readable discriminator is data[0].reason; the HTTP status is ALSO set (401 on API_KEY_REQUIRED,
+    405 on the MCP GET) rather than always 200. The one non-JSON-RPC route probed, GET /extendedAgentCard,
+    returns a plain {"error": "<message>"} object.
+  observed:
+  - {http_status: 200, code: -32009, reason: VERSION_NOT_SUPPORTED, message: "A2A protocol version '0.3' is not supported; use '1.0'", request: 'POST /a2a/jsonrpc tasks/list WITHOUT an A2A-Version header'}
+  - {http_status: 401, code: -32001, reason: API_KEY_REQUIRED, message: 'The extended AgentCard requires an `x-api-key` header. Contact contact@co-legal.be to request a key.', request: 'POST /a2a/jsonrpc agent/getAuthenticatedExtendedCard'}
+  - {http_status: 401, body: '{"error":"Missing or invalid `x-api-key`. The extended AgentCard is only available to authenticated callers; contact ops@co-legal.be to request a key."}', request: 'GET /extendedAgentCard'}
+  - {http_status: 405, code: -32000, message: 'Method Not Allowed: this MCP server offers no SSE stream; use POST.', request: 'GET /mcp'}
+  - {http_status: 405, request: 'GET /a2a/jsonrpc', note: 'JSON body, 750 bytes; the JSON-RPC endpoint is POST-only.'}
+  - {http_status: 404, body: 'Not Found', content_type: text/plain, bytes: 9, request: 'any unknown path on agent.co-legal.be (e.g. /openapi.json, /.well-known/security.txt)'}
+  - {http_status: 404, content_type: text/html, bytes: 9183, request: 'any unknown path on co-legal.be — the site''s designed 404 page, never an SPA shell'}
+  note: >-
+    Not RFC 9457 — no type URI, title, status or instance fields and no application/problem+json. The
+    google.rpc.ErrorInfo shape is the A2A 1.0 protobuf-JSON error mapping, so an A2A 1.0 client already parses
+    it. No tools/call or message/send was issued by this pipeline, so per-skill validation errors were not
+    observed; the tool-schema extension declares additionalProperties false and min/max lengths, so schema
+    violations are expected to be rejected before execution.
+problem_types:
+- code: -32009
+  reason: VERSION_NOT_SUPPORTED
+  http_status: 200
+  title: A2A protocol version not supported
+  cause: The A2A-Version request header is missing (the server then assumes 0.3) or names a version other than 1.0.
+  remediation: 'Send A2A-Version: 1.0 on every protocol request, as the provider''s llms.txt, agents.txt and payment-options.json (a2aRequiredHeaders) all state.'
+  observed: true
+- code: -32001
+  reason: API_KEY_REQUIRED
+  http_status: 401
+  title: Extended AgentCard requires an API key
+  cause: agent/getAuthenticatedExtendedCard (or GET /extendedAgentCard) called without a valid x-api-key.
+  remediation: Request a key by email (ops@co-legal.be / contact@co-legal.be); there is no self-serve issuance. The public card at /.well-known/agent-card.json needs no key.
+  observed: true
+- code: -32000
+  http_status: 405
+  title: MCP server is POST-only
+  cause: GET on https://agent.co-legal.be/mcp — the server offers no SSE stream.
+  remediation: Use Streamable HTTP POST with Accept application/json, text/event-stream.
+  observed: true
+- reason: RATE_LIMIT_EXCEEDED
+  http_status: 429
+  title: Fair-use rate limit exceeded
+  cause: Anonymous per-IP bucket exhausted (RateLimit-Limit 120 observed; 600 questions/hour/IP with a burst of 120 per the agent landing page).
+  remediation: Honour Retry-After and the RateLimit-Reset / X-RateLimit-* headers; an optional x-api-key raises the quota.
+  observed: false
+  source: https://co-legal.be/llms.txt — "over de limiet volgt 429 RATE_LIMIT_EXCEEDED met Retry-After"
+- http_status: 404
+  title: Unknown path
+  cause: Any path the agent host does not serve.
+  remediation: Discovery paths are enumerated in /llms.txt and /agents.txt on the agent host; there is no /openapi.json, /docs or /api.
+  observed: true
+- http_status: 405
+  title: Method not allowed on the JSON-RPC endpoint
+  cause: GET on /a2a/jsonrpc.
+  remediation: POST JSON-RPC 2.0 with Content-Type application/json.
+  observed: true
+task_states:
+  note: >-
+    A2A task lifecycle errors defined by the protocol (TaskNotFoundError -32001, TaskNotCancelableError
+    -32002, PushNotificationNotSupportedError -32003, UnsupportedOperationError -32004, ContentTypeNotSupported
+    -32005) were not exercised; tasks/list returned an empty list for the anonymous caller. Note the provider
+    reuses -32001 for API_KEY_REQUIRED, so a client must discriminate on data[0].reason rather than on the
+    code alone.

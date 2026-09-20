@@ -1,0 +1,209 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the named /.well-known/* path list on co-legal.be, www.co-legal.be and agent.co-legal.be
+  (the A2A + MCP host), 2026-09-19. Every row below is a request that was actually issued; every status is the
+  one returned.
+summary:
+  hosts_probed: 3
+  paths_probed: 56
+  documents_served: 9
+  hit_count: 9
+  path_echo_control: passed
+  note: >-
+    Co-Legal splits its discovery surface across two hosts. The apex co-legal.be serves an RFC 9116
+    security.txt (with Policy, Contact, Expires, Canonical, Preferred-Languages) and /llms.txt, and 302s the
+    agent-card, agent.json, mcp.json and jwks.json paths to agent.co-legal.be rather than 404ing them. The
+    agent host serves the A2A agent card at BOTH the canonical and the legacy path (different bodies), an MCP
+    discovery pointer (/.well-known/mcp.json), the JWKS that verifies the card signature, an AI Catalog 1.0
+    index (application/ai-catalog+json), a Legal Context Protocol pointer and a machine-readable
+    payment-options document, plus /llms.txt and /agents.txt. Neither host serves OAuth/OIDC discovery, RFC
+    9728 protected-resource metadata (the MCP resource host was probed directly — 404), an RFC 9727 API
+    catalog, an APIs.json, an AAuth resource document, an ai-plugin, or a UCP/ACP manifest. Both hosts return
+    a real 404 for a negative-control path that cannot exist, so every 200 above is a served document.
+hosts:
+- host: co-legal.be
+  role: Company website and documentation host (Cloudflare edge, Google Cloud Run origin)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    bytes: 469
+    file: co-legal-be-security.txt
+    standard: RFC 9116
+    note: 'Contact mailto:contact@co-legal.be; Expires 2027-05-19; Preferred-Languages nl, en; Canonical self-reference; Policy https://co-legal.be/security.html (301 -> https://co-legal.be/security, 200). The file states there is no paid bug-bounty programme and that valid reports are credited.'
+  - path: /.well-known/agent-card.json
+    status: 302
+    redirect: https://agent.co-legal.be/.well-known/agent-card.json
+    note: Delegated to the agent host, where it is a 200 — see the agent.co-legal.be rows and a2a/.
+  - path: /.well-known/agent.json
+    status: 302
+    redirect: https://agent.co-legal.be/.well-known/agent.json
+  - path: /.well-known/mcp.json
+    status: 302
+    redirect: https://agent.co-legal.be/.well-known/mcp.json
+  - path: /.well-known/jwks.json
+    status: 302
+    redirect: https://agent.co-legal.be/.well-known/jwks.json
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/markdown
+    bytes: 22020
+    file: ../llms/co-legal-be-llms.txt
+    standard: llms.txt
+    note: Provider-authored; names the agent card, extended card, JWKS, MCP pointer, health probe, JSON-RPC endpoint and rate-limit headers. /llms-full.txt (252 KB) also exists and was deliberately not saved (gitignored class).
+  - path: /robots.txt
+    status: 200
+    content_type: text/plain
+    bytes: 4229
+    note: 'Allow: / and Allow: /.well-known/ for every UA, with an explicit per-bot allowlist for AI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, Claude-User, PerplexityBot, Google-Extended, Applebot-Extended, Meta-ExternalAgent, CCBot, Bytespider and others) and Disallow: /admin/, /login. Not saved as a document; the comments say the agent surface has its own robots policy on agent.co-legal.be.'
+  - path: /.well-known/co-legal-be-negative-control-7f3ab91c.json
+    status: 404
+    control: negative
+    note: A path that cannot exist. Its 404 (the site's standard 9,183-byte HTML 404 page) proves the host does not echo or catch-all /.well-known/* requests.
+- host: www.co-legal.be
+  role: Alias — 301 to the apex for every path probed
+  documents:
+  - {path: /.well-known/agent-card.json, status: 301, redirect: 'https://co-legal.be/.well-known/agent-card.json'}
+  - {path: /.well-known/agent.json, status: 301}
+  - {path: /.well-known/security.txt, status: 301}
+  - {path: /.well-known/openid-configuration, status: 301}
+  - {path: /.well-known/oauth-authorization-server, status: 301}
+  - {path: /.well-known/oauth-protected-resource, status: 301}
+  - {path: /.well-known/api-catalog, status: 301}
+  - {path: /.well-known/ai-plugin.json, status: 301}
+  - {path: /llms.txt, status: 301}
+- host: agent.co-legal.be
+  role: A2A JSON-RPC host, MCP server host (https://agent.co-legal.be/mcp) and agent discovery host (Google Cloud Run, europe-west4)
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 25122
+    file: ../a2a/co-legal-be-agent-card.json
+    standard: A2A Agent Card 1.0 (JWS ES256 signed)
+    note: Saved verbatim under a2a/ and graded conformant in a2a/co-legal-be-a2a.yml; signature verified against /.well-known/jwks.json.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    bytes: 25028
+    file: ../a2a/co-legal-be-agent-card-legacy.json
+    standard: A2A Agent Card (legacy pre-0.3 path; 0.3-shaped body)
+    note: A different document from the canonical path — top-level url/preferredTransport, flat securitySchemes, termsOfService, contactEmail. Served on purpose for older readers.
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    bytes: 688
+    file: co-legal-be-mcp.json
+    standard: MCP discovery pointer (modelcontextprotocol.io discovery/v1 extension shape)
+    note: 'name colegal-legal-lookup, version 1.27.9, protocolVersion 2025-11-25, transports [{streamable-http, https://agent.co-legal.be/mcp}], alternatives.a2a {agentCard, extendedAgentCard, jsonrpc}, status available. The live server negotiated 2025-06-18 on initialize — see mcp/.'
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    bytes: 193
+    file: co-legal-be-jwks.json
+    standard: RFC 7517 JWK Set
+    note: One key — kty EC, crv P-256, alg ES256, use sig, kid colegal-agent-es256-1.
+  - path: /.well-known/ai-catalog.json
+    status: 200
+    content_type: application/ai-catalog+json
+    bytes: 449
+    file: co-legal-be-ai-catalog.json
+    standard: AI Catalog 1.0 (ARD/AIR)
+    note: Host identifier co-legal.be; one entry urn:air:co-legal.be:a2a:colegal-public-assistant of type application/a2a-agent-card+json with tags belgian-law, dutch-law, legal-research, tax, inheritance, company-law.
+  - path: /.well-known/legal-context.json
+    status: 200
+    content_type: application/json
+    bytes: 153
+    file: co-legal-be-legal-context.json
+    standard: Legal Context Protocol v1 (assurance Level 2)
+    note: Points at https://agent.co-legal.be/legal/terms (200, text/markdown — informational-only, no-advice, no-commerce terms) with an atrHash for tamper evidence.
+  - path: /.well-known/payment-options.json
+    status: 200
+    content_type: application/json
+    bytes: 636
+    file: co-legal-be-payment-options.json
+    standard: provider-specific (version 1)
+    note: 'commerceEnabled false; free tier available with registrationRequired false and rateLimitPolicy dynamic_fair_use; a Stripe "pro" subscription (1000 calls/month) and an x402 v2 pay-per-call option are both declared available: false with null price. Recorded in plans/.'
+  - path: /.well-known/security.txt
+    status: 404
+    note: The RFC 9116 file lives on the apex only; its Canonical field points there.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    note: This is the MCP resource host (https://agent.co-legal.be/mcp); no RFC 9728 protected-resource metadata is served for it, consistent with the server needing no credential.
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-keys.json
+    status: 404
+  - path: /.well-known/agent-skills/index.json
+    status: 404
+  - path: /.well-known/x402
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 1098
+    file: ../llms/co-legal-be-agent-llms.txt
+    standard: llms.txt
+    note: The agent host's own llms.txt — Discovery and Invocation sections naming every document above and the mandatory A2A-Version header.
+  - path: /agents.txt
+    status: 200
+    content_type: text/plain
+    note: A six-line plain-text pointer file (agent-card, endpoint, protocol a2a/1.0, request-header, provider, ai-catalog), declared in the host's sitemap.xml. Not a standard; not saved.
+  - path: /health
+    status: 200
+    content_type: application/json
+    note: '{"status":"ok","version":"1.27.9","protocol_version":"1.0","sha":"v1.27.9","uptime_seconds":...} — a liveness probe the security page lists as an open healthcheck. Not a status page.'
+  - path: /.well-known/co-legal-be-negative-control-7f3ab91c.json
+    status: 404
+    control: negative
+    note: A path that cannot exist. Its 404 (9-byte text/plain body) proves the host does not echo or catch-all /.well-known/* requests.
+robots_txt:
+  agent_host:
+    url: https://agent.co-legal.be/robots.txt
+    status: 200
+    note: 'User-agent: * / Allow: / with a comment naming the agent card and a Sitemap line; the sitemap lists /, the agent card, ai-catalog.json, llms.txt and agents.txt.'

@@ -1,0 +1,70 @@
+generated: '2026-09-19'
+method: searched
+source: https://agent.co-legal.be/.well-known/agent-card.json
+derived_from:
+- a2a/co-legal-be-agent-card.json
+- mcp/co-legal-be-mcp-initialize.json
+docs:
+- https://co-legal.be/llms.txt
+- https://agent.co-legal.be/llms.txt
+- https://agent.co-legal.be/
+- https://co-legal.be/legal
+summary:
+  types: [none, apiKey, http]
+  api_key_in: [header]
+  oauth2_flows: []
+  bearer: true
+  anonymous_access: true
+  credential_classes: 1
+  headline: >-
+    Anonymous by design. Both agent surfaces — the A2A JSON-RPC endpoint and the MCP server — accept
+    unauthenticated callers within a per-IP fair-use quota; the card declares this as a first-class option
+    (securityRequirements[0] = {}). ONE optional credential exists, an API key, presentable either as the
+    x-api-key header or as Authorization: Bearer <key> (RFC 6750). It raises the rate-limit quota and unlocks
+    the extended agent card (paid skills); it is obtained by email, not self-serve, and the provider states keys
+    are stored hashed. No OAuth 2.0, no OIDC, no discovery documents, no scopes. The card itself is
+    authenticated the other way round — it is JWS-signed (ES256) and verifiable against a published JWKS.
+schemes:
+- name: anonymous
+  type: none
+  description: >-
+    Declared explicitly — the A2A card's securityRequirements is [{}, {apiKeyAuth: []}, {httpBearer: []}] and
+    the answer_legal_question skill's own securityRequirements starts with {}. Live probes confirmed: MCP
+    initialize and tools/list, and A2A tasks/list, all succeeded with no credential, and the response carried
+    X-RateLimit-Tier: anon.
+  quota: RateLimit-Limit 120 (burst) observed; 600 questions per hour per IP per the agent landing page.
+  sources: [a2a/co-legal-be-agent-card.json, 'POST https://agent.co-legal.be/mcp (2026-09-19)', 'POST https://agent.co-legal.be/a2a/jsonrpc (2026-09-19)']
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  optional: true
+  description: Optional API key for higher rate limits, sent as the x-api-key header. Anonymous callers are accepted within the per-IP cap. (Card securitySchemes.apiKeyAuth.apiKeySecurityScheme.)
+  issuance:
+    method: email request
+    contacts: [ops@co-legal.be, contact@co-legal.be]
+    self_serve: false
+    cost: null
+    note: 'The 401 on the extended card says "contact ops@co-legal.be to request a key"; the JSON-RPC variant says contact@co-legal.be. payment-options.json shows registrationRequired false for the free tier and a not-yet-available Stripe "pro" subscription of 1000 calls/month, so the key is currently a manually issued quota credential rather than a purchased one.'
+  storage: 'Hashed at rest — "Optionele API keys worden gehasht opgeslagen — wij bewaren nooit de plaintext" (https://co-legal.be/legal).'
+  unlocks: [higher fair-use quota, 'agent/getAuthenticatedExtendedCard and GET /extendedAgentCard (paid skills)']
+  sources: [a2a/co-legal-be-agent-card.json, 'https://co-legal.be/llms.txt']
+- name: httpBearer
+  type: http
+  scheme: bearer
+  optional: true
+  description: 'The same optional API key presented as Authorization: Bearer <key> (RFC 6750). (Card securitySchemes.httpBearer.httpAuthSecurityScheme.)'
+  note: Opaque key, not an OAuth access token; bearerFormat is not declared.
+  sources: [a2a/co-legal-be-agent-card.json, 'https://agent.co-legal.be/llms.txt']
+mcp_server:
+  endpoint: https://agent.co-legal.be/mcp
+  auth: none required; the same optional x-api-key applies per payment-options.json (mcpEndpoint under the free tier)
+  oauth_metadata: none — /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource both 404 on the resource host
+  session: stateless; no Mcp-Session-Id issued
+card_integrity:
+  signature: JWS ES256, kid colegal-agent-es256-1, jku https://agent.co-legal.be/.well-known/jwks.json, typ JOSE
+  verified: '2026-09-19 — see a2a/co-legal-be-a2a.yml x-evidence.signature_verification'
+  note: Verifying the card signature lets a client establish that the endpoint, skills and schemes it is about to trust were published by the key holder, independent of TLS. Few catalog cards offer this.
+delegated_identity: false
+dynamic_client_registration: false
+protected_resource_metadata: false

@@ -1,0 +1,357 @@
+generated: '2026-09-19'
+method: derived
+source: mcp/co-legal-be-mcp-tools.json (live anonymous tools/list, 2026-09-19) bound to a2a/co-legal-be-agent-card.json
+  (live signed card v1.27.9) and its tool-schema/v1 extension params. Co-Legal publishes NO OpenAPI, GraphQL or
+  WSDL (see surfaces.openapi), so this crosswalk binds the two agent surfaces to EACH OTHER rather than to REST
+  operationIds; rest[] is empty on every row by measurement, not omission.
+surfaces:
+  openapi:
+    file: null
+    url: null
+    operations: 0
+    gated: false
+    note: 'None published. Probed 2026-09-19 on co-legal.be and agent.co-legal.be: /openapi.json, /openapi.yaml,
+      /swagger.json, /v1/openapi.json, /api-docs, /docs, /redoc all 404 (agent host answers a 9-byte text/plain
+      404; apex answers its HTML 404 page). The A2A tool-schema/v1 extension and the MCP inputSchemas are the only
+      machine-readable parameter contracts.'
+  mcp:
+  - url: https://agent.co-legal.be/mcp
+    gated: false
+    tools: 12
+    protocol_version: '2025-06-18'
+    note: 'Anonymous initialize + tools/list succeed; all 12 tools carry inputSchema and annotations {readOnlyHint:
+      true, destructiveHint: false, idempotentHint: true, openWorldHint: true}. prompts/list and resources/list
+      return empty arrays.'
+  graphql: null
+  a2a:
+    url: https://agent.co-legal.be/a2a/jsonrpc
+    card: a2a/co-legal-be-agent-card.json
+    gated: false
+    protocol_version: '1.0'
+    skills: 17
+    note: Anonymous within fair-use limits (RateLimit-* headers observed); the extended card (paid skills) is x-api-key
+      gated and was not read. Per-skill JSON Schemas travel in the vendor extension https://agent.co-legal.be/a2a/extensions/tool-schema/v1
+      because A2A 1.0 AgentSkill has no native inputSchema (16 of 17 skills have one; answer_legal_question is free
+      text).
+crosswalk:
+- tool: kbo_lookup
+  surface: mcp
+  a2a_skill: be.kbo.lookup
+  a2a_skill_name: Belgian enterprise (KBO/BCE) lookup
+  category: company-registry
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - enterprise_number
+    required:
+    - enterprise_number
+  a2a_input:
+    properties:
+    - enterprise_number
+    required:
+    - enterprise_number
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: vies_validate
+  surface: mcp
+  a2a_skill: be.vies.validate
+  a2a_skill_name: EU VAT number validation (VIES)
+  category: vat-validation
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - vat
+    required:
+    - vat
+  a2a_input:
+    properties:
+    - vat
+    required:
+    - vat
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: ecli_lookup
+  surface: mcp
+  a2a_skill: be.ecli.lookup
+  a2a_skill_name: Belgian ECLI case-law resolver
+  category: case-law
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - ecli
+    required:
+    - ecli
+  a2a_input:
+    properties:
+    - ecli
+    required:
+    - ecli
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: eurlex_lookup
+  surface: mcp
+  a2a_skill: eu.eurlex.lookup
+  a2a_skill_name: EU CELEX (EUR-Lex) resolver
+  category: eu-legislation
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - celex
+    - language
+    required:
+    - celex
+  a2a_input:
+    properties:
+    - celex
+    - language
+    required:
+    - celex
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: erfbelasting_tarieven
+  surface: mcp
+  a2a_skill: be.fiscal.erfbelasting
+  a2a_skill_name: Flemish inheritance-tax rates
+  category: tax-rates
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - categorie
+    required: []
+  a2a_input:
+    properties:
+    - categorie
+    required: []
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: legal_lookup
+  surface: mcp
+  a2a_skill: be.legal.lookup
+  a2a_skill_name: Belgian statute (Justel) resolver
+  category: be-legislation
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - article
+    - code
+    required:
+    - code
+  a2a_input:
+    properties:
+    - article
+    - code
+    required:
+    - code
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: legal_search
+  surface: mcp
+  a2a_skill: be.legal.search
+  a2a_skill_name: Belgian Justel search-link builder (no result rows)
+  category: be-legislation
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - keyword
+    - limit
+    required:
+    - keyword
+  a2a_input:
+    properties:
+    - keyword
+    - limit
+    required:
+    - keyword
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: legal_read
+  surface: mcp
+  a2a_skill: be.legal.read
+  a2a_skill_name: Belgian/EU legal document reader
+  category: document-retrieval
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - max_chars
+    - url
+    required:
+    - url
+  a2a_input:
+    properties:
+    - max_chars
+    - url
+    required:
+    - url
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: nl_legal_lookup
+  surface: mcp
+  a2a_skill: nl.legal.lookup
+  a2a_skill_name: Dutch statute (wetten.overheid.nl) resolver
+  category: nl-legislation
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - article
+    - code
+    required:
+    - code
+  a2a_input:
+    properties:
+    - article
+    - code
+    required:
+    - code
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: nl_rechtspraak_lookup
+  surface: mcp
+  a2a_skill: nl.rechtspraak.lookup
+  a2a_skill_name: Dutch ECLI case-law resolver
+  category: case-law
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - ecli
+    required:
+    - ecli
+  a2a_input:
+    properties:
+    - ecli
+    required:
+    - ecli
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: iban_validate
+  surface: mcp
+  a2a_skill: iban.validate
+  a2a_skill_name: IBAN structural validator
+  category: finance-validation
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - iban
+    required:
+    - iban
+  a2a_input:
+    properties:
+    - iban
+    required:
+    - iban
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+- tool: ecb_rates
+  surface: mcp
+  a2a_skill: ecb.rates
+  a2a_skill_name: ECB euro reference exchange rate
+  category: finance-reference
+  rest: []
+  binding: a2a
+  confidence: high
+  mcp_input:
+    properties:
+    - currency
+    required:
+    - currency
+  a2a_input:
+    properties:
+    - currency
+    required:
+    - currency
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: true
+mcp_only: []
+a2a_only:
+- skill: answer_legal_question
+  name: Answer Belgian/Dutch private-client legal/fiscal question
+  reason: Natural-language LLM Q&A over the whole source set (Claude Opus 5 via Vertex AI per the model-disclosure
+    extension); a conversational A2A skill with text/plain input, not a deterministic MCP tool. Anonymous or x-api-key.
+- skill: be.legal.corpus.search
+  name: Belgian & EU public legal-corpus search
+  reason: Semantic (RAG) search over the indexed public corpus with 12 named source keys; no MCP tool exposes the
+    corpus index.
+- skill: be.legal.corpus.read
+  name: Read a page of a public legal source
+  reason: Paged read of a corpus document by document_id + next_cursor from be.legal.corpus.search; no MCP counterpart.
+- skill: legal.citation.verify
+  name: Legal citation verifier
+  reason: Anti-hallucination citation verifier (ECLI / CELEX / statute article / VLABEL ruling) returning verified
+    / resolvable / malformed / unsupported; composite over several resolvers, A2A only.
+- skill: co-legal.document.draft
+  name: Draft a concept document (DOCX)
+  reason: Stateless DOCX concept-document generator returned as an A2A FilePart artifact (application/vnd.openxmlformats-officedocument.wordprocessingml.document);
+    no MCP tool returns a file.
+rest_only: []
+coverage:
+  mcp_tools: 12
+  mcp_tools_bound_to_a2a: 12
+  mcp_only: 0
+  a2a_skills: 17
+  a2a_skills_bound_to_mcp: 12
+  a2a_only: 5
+  rest_operations: 0
+  rest_operations_with_tool: 0
+  high_confidence: 12
+  medium_confidence: 0
+note: 'The MCP server is the deterministic, read-only lookup subset (12 tools); the A2A agent is a strict superset
+  that adds the LLM answer skill, corpus search/read, citation verification and DOCX drafting. Neither surface mutates
+  anything: the provider states "Geen mutaties in cliëntdossiers, registers of andere externe systemen" (llms.txt)
+  and every MCP tool declares idempotentHint true.'

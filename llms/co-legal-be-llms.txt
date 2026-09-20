@@ -1,0 +1,110 @@
+# Co·Legal
+
+> Co-Legal B.V. is een Nederlandse onderneming voor AI-native juridische software en dienstverlening, met Belgische dossierexpertise en grensoverschrijdende context. Vermogensplanning, fiscaliteit, vennootschappen, transacties en vastgoed komen samen in één dossier. De AI versnelt het werk met publieke bronnen waar passend; een mens neemt de juridische verantwoordelijkheid. Daarnaast is er een publieke A2A- en MCP-agent voor informatieve juridische en fiscale bronvragen. De AgentCard is ES256-gesigneerd en de agent is EU-hosted; openbare skills en AI-chat zijn anoniem bruikbaar binnen fair-use limieten, met een optionele API-key voor hoger quota.
+
+Co-Legal B.V. (KvK 42135345, Nederland) levert AI-native juridische software en dienstverlening voor Belgische en grensoverschrijdende dossiers. Wij verbinden vermogensplanning, fiscaliteit, vennootschappen, transacties en vastgoed in één dossier. De publieke agent is aanvullend: een machine-leesbare A2A- en MCP-dienst voor algemene, informatieve juridische en fiscale vragen met openbare bronnen — geen dossiergebonden advies.
+
+## Drie lijnen
+
+1. Juridische software en dienstverlening — ondersteuning bij onderzoek, analyse en documentvoorbereiding, met de expertise en professionele afweging van de gebruiker als uitgangspunt.
+2. Publieke A2A- en MCP-agent — een informatief toegangspunt voor openbare Belgische en Nederlandse juridische en fiscale bronnen, ook bruikbaar door andere AI-systemen. Live op agent.co-legal.be.
+
+## Belangrijkste pagina's
+
+<!-- BEGIN auto-generated page list (build/render.py) -->
+- [Home](https://co-legal.be/) ([md](https://co-legal.be/index.md)): Co·Legal B.V. (KvK 42135345, Nederland) levert AI-native juridische software en dienstverlening voor Belgische en grensoverschrijdende dossiers: vermogensplanning, fiscaliteit, vennootschappen, transacties en vastgoed in één dossier. De AI versnelt het werk met publieke bronnen waar passend; de opdracht en professionele verantwoordelijkheden worden vooraf afgesproken. Daarnaast is er een publieke A2A- en MCP-agent voor informatieve juridische en fiscale bronvragen.
+- [Onze werkgebieden](https://co-legal.be/diensten) ([md](https://co-legal.be/diensten.md)): juridische software en dossierondersteuning voor vermogen, ondernemingen, fiscaliteit en vastgoed; opdracht en professionele verantwoordelijkheden worden vooraf afgesproken
+- [Publieke A2A- en MCP-agent](https://co-legal.be/agent) ([md](https://co-legal.be/agent.md)): interactieve, informatieve AI-chat met multi-turn over Belgische en Nederlandse juridische en fiscale bronnen; bereikbaar via A2A v1.0 én MCP. Zonder registratie te testen binnen fair-use limieten.
+- [Onze werkwijze](https://co-legal.be/product) ([md](https://co-legal.be/product.md)): van vraag en context naar brononderzoek, documentvoorbereiding en menselijke beoordeling; duidelijk onderscheid tussen websitechat, publieke bronagent en besloten dossierplatform
+- [Over Co·Legal](https://co-legal.be/about) ([md](https://co-legal.be/about.md)): Co-Legal B.V., Nederlandse onderneming; visie, principes en onderscheid tussen AI-ondersteuning en professioneel oordeel
+- [Security & data](https://co-legal.be/security) ([md](https://co-legal.be/security.md)): hosting, encryptie, RBAC, onderverwerkers, retentie, GDPR, incident-response tijdslijn
+- [Contact](https://co-legal.be/contact) ([md](https://co-legal.be/contact.md)): rechtstreeks contact via e-mail en een lokale berichtvoorbereider; juridische entiteit en contact voor privacy- en beveiligingsvragen
+- [Privacy & ToS](https://co-legal.be/legal) ([md](https://co-legal.be/legal.md)): juridische voorwaarden voor website + publieke agent, WCAG 2.2 AA toegankelijkheidsverklaring
+- [Privacy — platform](https://co-legal.be/platform-privacy) ([md](https://co-legal.be/platform-privacy.md)): welke gegevens het besloten Co·Legal-platform verwerkt en waarom: rol als verwerker, welke gegevens van kantoor en cliënten, bewaartermijnen, toestemming intrekken bij een boekhoudkoppeling, en de beveiligingsmaatregelen (EU-hosting, rollenmodel, secret-store)
+- [Blog](https://co-legal.be/blog) ([md](https://co-legal.be/blog/index.md)): blog-overzicht met praktische, accurate uitleg over Belgisch recht, fiscaliteit en boekhouding — met Nederlandse context waar een dossier de grens overgaat — en hoe één AI-first stack het werk over de disciplines heen verbindt
+- [Elektronisch factureren tussen Belgische ondernemingen](https://co-legal.be/blog/e-facturatie-belgie-2026) ([md](https://co-legal.be/blog/e-facturatie-belgie-2026.md)): Bekijk de toepassingsvragen rond gestructureerde B2B-facturen en de voorbereiding van uw administratie.
+- [Werken in België en Nederland: sociale zekerheid](https://co-legal.be/blog/werken-belgie-nederland-sociale-zekerheid) ([md](https://co-legal.be/blog/werken-belgie-nederland-sociale-zekerheid.md)): Onderzoek werkpatroon, woonland en meldingen bij werk in meerdere landen; houd de fiscale toets afzonderlijk.
+- [Btw bij diensten tussen België en Nederland](https://co-legal.be/blog/btw-diensten-belgie-nederland-2026) ([md](https://co-legal.be/blog/btw-diensten-belgie-nederland-2026.md)): Begin bij het diensttype en de klantstatus om de juiste btw-vragen aan uw adviseur voor te leggen.
+- [UBO-opgave in Nederland](https://co-legal.be/blog/nederlands-ubo-register-2026) ([md](https://co-legal.be/blog/nederlands-ubo-register-2026.md)): Lees welke wijzigingen u bij KVK moet melden en welke informatie u daarvoor verzamelt.
+- [Het Belgische UBO-register bijhouden](https://co-legal.be/blog/ubo-register-2026) ([md](https://co-legal.be/blog/ubo-register-2026.md)): Bereid registratie, wijzigingen, jaarlijkse bevestiging en bewijsstukken voor uw Belgische entiteit voor.
+- [Een eigen woning kopen: het Vlaamse tarief van 2%](https://co-legal.be/blog/registratierechten-vlaanderen-2026) ([md](https://co-legal.be/blog/registratierechten-vlaanderen-2026.md)): Onderzoek de voorwaarden, termijnen en aandachtspunten bij het verlaagde tarief voor de enige eigen woning.
+- [Erfbelasting in Vlaanderen: tarieven en aandachtspunten](https://co-legal.be/blog/erfbelasting-vlaanderen-2026) ([md](https://co-legal.be/blog/erfbelasting-vlaanderen-2026.md)): Lees welke familiebanden, vermogensbestanddelen en voorwaarden relevant zijn voor een Vlaamse erfbelastingberekening.
+- [Belgische vennootschapsbelasting: tarief en voorwaarden](https://co-legal.be/blog/vennootschapsbelasting-belgie-2026) ([md](https://co-legal.be/blog/vennootschapsbelasting-belgie-2026.md)): Maak onderscheid tussen inkomstenjaar en aanslagjaar en controleer de voorwaarden voor een verlaagd tarief.
+- [Schenken met behoud van vruchtgebruik](https://co-legal.be/blog/schenken-met-voorbehoud-vruchtgebruik) ([md](https://co-legal.be/blog/schenken-met-voorbehoud-vruchtgebruik.md)): Bespreek eigendom, inkomsten en zeggenschap afzonderlijk voordat u een schenking laat uitwerken.
+- [Vermogen & opvolging](https://co-legal.be/diensten/vermogen-opvolging) ([md](https://co-legal.be/diensten/vermogen-opvolging.md)): Een schenking of opvolging raakt eigendom, zeggenschap, familieverhoudingen en toekomstige inkomsten. Co·Legal helpt die vragen samen te brengen, zodat uw adviseurs vanuit dezelfde feiten kunnen werken.
+- [Ondernemingen & transacties](https://co-legal.be/diensten/ondernemingen-transacties) ([md](https://co-legal.be/diensten/ondernemingen-transacties.md)): Bij een oprichting, aandelenoverdracht of herstructurering moeten afspraken, cijfers en bevoegdheden op elkaar aansluiten. Co·Legal ondersteunt onderzoek en documentvoorbereiding, met zicht op de gevolgen voor alle betrokkenen.
+- [Fiscaliteit & finance](https://co-legal.be/diensten/fiscaliteit-finance) ([md](https://co-legal.be/diensten/fiscaliteit-finance.md)): Een fiscale uitkomst krijgt betekenis door de feiten en aannames erachter. Co·Legal brengt brononderzoek, financiële informatie en juridische vragen bij elkaar, zodat scenario’s inhoudelijk kunnen worden beoordeeld.
+- [Vastgoed & grensoverschrijdend werk](https://co-legal.be/diensten/vastgoed-grensoverschrijdend) ([md](https://co-legal.be/diensten/vastgoed-grensoverschrijdend.md)): Bij vastgoed komen eigendom, gebruik, financiering en fiscaliteit samen. Co·Legal helpt de informatie en onderzoeksvragen structureren, ook wanneer Belgische en Nederlandse aanknopingspunten elkaar raken.
+- [Voor professionele kantoren](https://co-legal.be/voor-professionals) ([md](https://co-legal.be/voor-professionals.md)): Voor advocaten, notariskantoren, accountants en fiscalisten die dossierwerk in samenhang willen organiseren. Ontdek hoe Co·Legal onderzoek, analyse en documentvoorbereiding ondersteunt.
+- [Starten met Co·Legal](https://co-legal.be/starten) ([md](https://co-legal.be/starten.md)): Van een eerste vraag naar duidelijke afspraken en voorbereid dossierwerk. Lees wat u kunt delen, welke stappen volgen en hoe kosten en verantwoordelijkheden worden besproken.
+- [Veelgestelde vragen](https://co-legal.be/veelgestelde-vragen) ([md](https://co-legal.be/veelgestelde-vragen.md)): Antwoorden over Co·Legal, samenwerking, kosten, de publieke agent en vertrouwelijk dossierwerk. Vind snel de juiste informatie voor uw volgende stap.
+- [Een AI-antwoord controleren: van bron naar bruikbaar inzicht](https://co-legal.be/blog/ai-bronnen-controleren) ([md](https://co-legal.be/blog/ai-bronnen-controleren.md)): Een bronverwijzing is het begin van de controle. Met deze werkwijze onderzoekt u herkomst, toepasselijkheid en onzekerheid voordat een AI-antwoord in een dossier terechtkomt.
+- [Due diligence: van documentenmap naar controleerbaar dossier](https://co-legal.be/blog/due-diligence-dossier) ([md](https://co-legal.be/blog/due-diligence-dossier.md)): Een verzameling bestanden is nog geen onderzoek. Deze praktische gids verbindt stukken, bevindingen, open vragen en besluiten bij de voorbereiding van een transactie.
+- [AI invoeren in uw kantoor: begin met één werkstroom](https://co-legal.be/blog/ai-invoeren-kantoor) ([md](https://co-legal.be/blog/ai-invoeren-kantoor.md)): Een bruikbare AI-aanpak begint bij een concrete taak, duidelijke informatiegrenzen en een herkenbaar controlemoment. Zo maakt u een eerste proef inhoudelijk beoordeelbaar.
+- [Een contract beoordelen: een praktische checklist](https://co-legal.be/blog/contract-beoordelen-checklist) ([md](https://co-legal.be/blog/contract-beoordelen-checklist.md)): Een contractreview voorbereiden met duidelijke versies, verplichtingen, financiële gevolgen en open onderhandelingspunten.
+- [Een BV oprichten: het financieel plan voorbereiden](https://co-legal.be/blog/bv-oprichten-financieel-plan) ([md](https://co-legal.be/blog/bv-oprichten-financieel-plan.md)): Welke aannames, stukken en scenario’s helpen bij het financieel plan voor een Belgische BV? Een praktische voorbereiding voor uw adviseurs.
+- [Een onderneming controleren in de KBO](https://co-legal.be/blog/kbo-onderneming-controleren) ([md](https://co-legal.be/blog/kbo-onderneming-controleren.md)): Zo zoekt u de juiste Belgische entiteit en legt u vast welke KBO-gegevens u hebt gecontroleerd en wat nog verder onderzoek vraagt.
+- [Een jaarrekening lezen: van cijfers naar dossiervragen](https://co-legal.be/blog/jaarrekening-lezen) ([md](https://co-legal.be/blog/jaarrekening-lezen.md)): Balans, resultaat en toelichting samen lezen. Een praktische gids om financiële vragen te formuleren bij een Belgische onderneming.
+- [Het aandelenregister controleren vóór een overdracht](https://co-legal.be/blog/aandelenregister-controleren) ([md](https://co-legal.be/blog/aandelenregister-controleren.md)): Bereid een aandelenoverdracht voor door register, statuten, eerdere transacties en afspraken over zeggenschap naast elkaar te leggen.
+- [Een zorgvolmacht voorbereiden: vragen voor uw notaris](https://co-legal.be/blog/zorgvolmacht-voorbereiden) ([md](https://co-legal.be/blog/zorgvolmacht-voorbereiden.md)): Denk vooraf na over lasthebbers, persoonlijke wensen, vermogen en praktische controle. Een voorbereiding voor het gesprek over een Belgische zorgvolmacht.
+- [Een woning verkopen in Vlaanderen: uw dossier voorbereiden](https://co-legal.be/blog/woning-verkopen-dossier) ([md](https://co-legal.be/blog/woning-verkopen-dossier.md)): Breng eigendom, attesten, gebruik en financiële afspraken tijdig samen voordat u een Vlaamse woning verkoopt.
+- [België en Nederland: één grensoverschrijdend dossier opbouwen](https://co-legal.be/blog/grensoverschrijdend-dossier-belgie-nederland) ([md](https://co-legal.be/blog/grensoverschrijdend-dossier-belgie-nederland.md)): Orden woonplaats, werk, ondernemingen en documenten zodat Belgische en Nederlandse adviseurs dezelfde feiten onderzoeken.
+- [Een dataroom inrichten: structuur, versies en toegang](https://co-legal.be/blog/dataroom-inrichten) ([md](https://co-legal.be/blog/dataroom-inrichten.md)): Een praktische indeling voor een transactiedataroom, met documentstatus, vragenlog en duidelijke afspraken over toegang.
+- [Een AI-leverancier beoordelen voor uw kantoor](https://co-legal.be/blog/ai-leverancier-beoordelen) ([md](https://co-legal.be/blog/ai-leverancier-beoordelen.md)): Vergelijk juridische AI op bronkwaliteit, gegevensgebruik, controleerbaarheid en praktische uitvoerbaarheid met een gerichte vragenlijst.
+- [Over onze redactie en bronnen](https://co-legal.be/redactie) ([md](https://co-legal.be/redactie.md)): Wie de kennisbank publiceert, hoe AI en bronnen worden gebruikt en hoe u een correctie kunt melden.
+- [Officiële bronnen voor uw dossier](https://co-legal.be/bronnen) ([md](https://co-legal.be/bronnen.md)): Een wegwijzer naar Belgische, Vlaamse, Nederlandse en Europese bronnen, met uitleg over wat u er wel en niet mee kunt vaststellen.
+- [Begrippen bij juridisch en fiscaal dossierwerk](https://co-legal.be/begrippen) ([md](https://co-legal.be/begrippen.md)): Van aandelenregister tot zorgvolmacht: veertien begrippen uitgelegd, met verwijzingen naar praktische gidsen en brononderzoek.
+- [Kennisbank voor juridische en fiscale vragen](https://co-legal.be/kennisbank) ([md](https://co-legal.be/kennisbank.md)): Praktische gidsen over ondernemingen, vermogen, vastgoed, grenswerk en AI. Vind de juiste checklist en bereid uw dossier gericht voor.
+- [Aandeelhoudersafspraken: bespreek deze keuzes vooraf](https://co-legal.be/blog/aandeelhoudersafspraken-voorbereiden) ([md](https://co-legal.be/blog/aandeelhoudersafspraken-voorbereiden.md)): Bereid afspraken voor over inzet, informatie, zeggenschap, financiering en vertrek van aandeelhouders.
+- [Een overname voorbereiden: van eerste vraag naar onderzoek](https://co-legal.be/blog/overname-voorbereiden) ([md](https://co-legal.be/blog/overname-voorbereiden.md)): Bepaal wat u wilt overnemen, welke informatie ontbreekt en welke juridische en financiële vragen eerst moeten worden onderzocht.
+- [Een intentieverklaring voorbereiden bij een overname](https://co-legal.be/blog/intentieverklaring-voorbereiden) ([md](https://co-legal.be/blog/intentieverklaring-voorbereiden.md)): Breng uitgangspunten, onderzoeksafspraken, exclusiviteit en kosten in kaart voordat een intentieverklaring wordt ondertekend.
+- [Algemene voorwaarden: controleer tekst én gebruik](https://co-legal.be/blog/algemene-voorwaarden-controleren) ([md](https://co-legal.be/blog/algemene-voorwaarden-controleren.md)): Onderzoek welke voorwaarden u gebruikt, hoe klanten ze ontvangen en of ze aansluiten op offertes en uitvoering.
+- [Een bestuursbesluit voorbereiden en opvolgen](https://co-legal.be/blog/bestuursbesluit-voorbereiden) ([md](https://co-legal.be/blog/bestuursbesluit-voorbereiden.md)): Verzamel de juiste stukken, maak alternatieven zichtbaar en leg vast wie na het besluit welke actie uitvoert.
+- [Liquiditeitsplanning: maak betaalmomenten zichtbaar](https://co-legal.be/blog/liquiditeitsplanning-voorbereiden) ([md](https://co-legal.be/blog/liquiditeitsplanning-voorbereiden.md)): Bereid een kasplanning voor met ontvangsten, verplichtingen, onzekerheden en afspraken over opvolging.
+- [Na een overlijden: het nalatenschapsdossier ordenen](https://co-legal.be/blog/nalatenschap-dossier-ordenen) ([md](https://co-legal.be/blog/nalatenschap-dossier-ordenen.md)): Verzamel documenten, contactpersonen en open vragen voor de notaris zonder vooruit te lopen op uw erfkeuze.
+- [Een vermogensoverzicht maken voor uw adviseur](https://co-legal.be/blog/vermogensoverzicht-maken) ([md](https://co-legal.be/blog/vermogensoverzicht-maken.md)): Orden eigendom, schulden, inkomsten en wensen als voorbereiding op vermogens- en opvolgingsvragen.
+- [Een handelspand huren: bereid uw dossier voor](https://co-legal.be/blog/handelshuur-voorbereiden) ([md](https://co-legal.be/blog/handelshuur-voorbereiden.md)): Onderzoek activiteit, gebruik, kosten en aanpassingen voordat u een huurovereenkomst voor een handelspand sluit.
+- [Een verwerkingsregister voorbereiden met uw team](https://co-legal.be/blog/verwerkingsregister-voorbereiden) ([md](https://co-legal.be/blog/verwerkingsregister-voorbereiden.md)): Breng werkprocessen en persoonsgegevens samen in een controleerbaar overzicht voor uw privacyverantwoordelijke.
+- [Een AI-werkinstructie voor uw kantoor maken](https://co-legal.be/blog/ai-werkinstructie-kantoor) ([md](https://co-legal.be/blog/ai-werkinstructie-kantoor.md)): Leg per taak vast welke informatie is toegestaan, welke controle nodig is en wanneer medewerkers moeten stoppen.
+- [Een dossier overdragen zonder open vragen kwijt te raken](https://co-legal.be/blog/dossier-overdragen) ([md](https://co-legal.be/blog/dossier-overdragen.md)): Maak voor een opvolgende adviseur zichtbaar wat vaststaat, welke versies gelden en welke acties nog openstaan.
+<!-- END auto-generated page list -->
+
+## Publieke A2A- en MCP-agent
+
+- [AgentCard](https://agent.co-legal.be/.well-known/agent-card.json): ES256-gesigneerde A2A v1.0 AgentCard (JCS-canonical body, JWS protected header with `jku` → JWKS, no `typ:JWT`)
+- [Extended AgentCard](https://agent.co-legal.be/extendedAgentCard): geauthenticeerde projectie (betaalde skills via API key) — voorbereid, geeft 401 terug zonder `x-api-key`
+- [JWKS](https://agent.co-legal.be/.well-known/jwks.json): publieke ES256 sleutel voor handtekeningverificatie
+- [MCP discovery pointer](https://agent.co-legal.be/.well-known/mcp.json): live read-only MCP-server via streamable HTTP op `https://agent.co-legal.be/mcp`; bevat ook de A2A-alternatieven
+- [Health probe](https://agent.co-legal.be/health): beschikbaarheidscheck
+- JSON-RPC endpoint: `POST https://agent.co-legal.be/a2a/jsonrpc`
+- Methodes: `message/send` (single + multi-turn via taskId, text-of-data-part), `message/stream` (SSE), `tasks/get`, `tasks/list`, `tasks/cancel`
+- Skills: de live [AgentCard](https://agent.co-legal.be/.well-known/agent-card.json) is de bron van waarheid voor de actuele publieke skilllijst en JSON-Schema's. Die omvat onder meer wet- en jurisprudentiebronnen, KBO/VIES/IBAN-controles, erfbelastingstarieven, ECB-rates, publieke corpuszoeking en conceptdocumenten met verplichte reviewdisclaimer.
+- Headers op elke response: `A2A-Version: 1.0`, `RateLimit-Limit/Remaining/Reset` (IETF draft) + legacy `X-RateLimit-*`
+- Toegang: openbare skills via een `kind:"data"` part en natuurlijke-taal AI-chat (`text` part) zijn anoniem bruikbaar binnen dynamische fair-use limieten. De actuele limiet staat op elke respons in de `RateLimit-*` en `X-RateLimit-*` headers. Een optionele `x-api-key` verhoogt het quota; over de limiet volgt `429 RATE_LIMIT_EXCEEDED` met `Retry-After`.
+
+## A2A-integratie (koppel de stack aan uw eigen systeem)
+
+- Heeft u zelf een API of dataset die u als A2A-agent wil aanbieden, of geen zin in het protocol-werk? Mail contact@co-legal.be — wij kunnen een A2A v1.0-agent rond uw bron bouwen + hosten (eigen subdomain op `agents.co-legal.be`, EU-hosting GCP `europe-west4`, TLS 1.3, ES256-gesigneerde AgentCard + JWKS, tot 5 JSON-Schema-gevalideerde skills)
+- Waarom open: A2A v1.0 is een open Linux-Foundation protocol (maart 2026) — wij investeren in een toegankelijke Belgische legal/fiscal data-laag, met Nederlandse context waar de vraag de grens overgaat
+- Past minder voor: persoonlijke dossier-data (dat loopt via de dienst zelf, met professionele beoordeling), generieke chatbots zonder onderliggende bron, content onder strikte commerciële licentie
+
+## Wat de agent NIET doet
+
+- Geen specifiek juridisch of fiscaal advies — vervangt geen advocaat, notaris of belastingconsulent
+- Geen toegang tot dossier-data van klanten
+- Geen mutaties in cliëntdossiers, registers of andere externe systemen; eventuele conceptdocumenten zijn stateless en vragen juridische review
+- Geen toegang tot private, licentiegebonden databanken via de publieke agent
+- Geen Jura/monKEY/Stradalex content via de publieke agent (license-bound; alleen binnen de dienst zelf)
+
+## Crawlbeleid
+
+Publieke zoekmachines, answer engines en AI/LLM-crawlers mogen de publieke website indexeren. Gebruik bij voorkeur deze pagina als compacte index en `llms-full.txt` wanneer volledige context nodig is. Niet crawlen: private productomgevingen zoals `app.co-legal.be` en klantdossiers.
+
+Crawl-policy details: zie `https://co-legal.be/robots.txt` (per-bot allowlist voor GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, Google-Extended, Applebot, Applebot-Extended, Meta-ExternalAgent, Meta-ExternalFetcher, MistralAI-User, cohere-ai, Diffbot, CCBot, Bytespider, Amazonbot, DuckAssistBot, en alle reguliere search-bots).
+
+## Optional
+
+- [llms-full.txt](https://co-legal.be/llms-full.txt): de volledige inhoud van de publieke pagina's, samengevoegd als één markdown-document — bedoeld voor LLMs die context willen inladen zonder per pagina te crawlen
+- [Sitemap](https://co-legal.be/sitemap.xml): machine-readable URL index
+- [Security disclosure](https://co-legal.be/.well-known/security.txt): RFC 9116
+- [PWA manifest](https://co-legal.be/manifest.webmanifest)

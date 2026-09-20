@@ -1,0 +1,12 @@
+# RFC 9116 — Security Disclosure
+# https://www.rfc-editor.org/rfc/rfc9116
+#
+# Co-Legal B.V. publishes this file so security researchers know how to
+# report a vulnerability. We don't run a paid bug-bounty programme today,
+# but we credit valid reports and respond fast.
+
+Contact: mailto:contact@co-legal.be
+Expires: 2027-05-19T00:00:00.000Z
+Preferred-Languages: nl, en
+Canonical: https://co-legal.be/.well-known/security.txt
+Policy: https://co-legal.be/security.html

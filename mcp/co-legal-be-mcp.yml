@@ -1,0 +1,139 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://agent.co-legal.be/mcp
+docs: https://co-legal.be/agent
+discovery: https://agent.co-legal.be/.well-known/mcp.json
+summary: >-
+  Co-Legal operates ONE remote MCP server at https://agent.co-legal.be/mcp — the same Cloud Run host that
+  serves its A2A agent card and JSON-RPC endpoint. It is POST-only Streamable HTTP (a GET returns 405 with a
+  JSON-RPC error -32000 "Method Not Allowed: this MCP server offers no SSE stream; use POST."), negotiated MCP
+  protocol version 2025-06-18 on initialize (the discovery pointer and the agent card's discovery extension
+  both advertise 2025-11-25), identifies itself as serverInfo {name: colegal-legal-lookup, version: 1.27.9,
+  websiteUrl: https://co-legal.be/agent}, and answers initialize and tools/list anonymously with TWELVE tools
+  that each carry a real inputSchema (JSON Schema, titled *Arguments objects) and MCP tool annotations. Every
+  tool declares readOnlyHint true, destructiveHint false, idempotentHint true and openWorldHint true — the
+  server is a deterministic lookup layer over official public sources (KBO/BCE, VIES, Belgian and Dutch ECLI,
+  EUR-Lex/CELEX, Justel, wetten.overheid.nl, the Flemish Tax Code, ECB reference rates) and its own initialize
+  instructions say so. prompts/list and resources/list return empty arrays. Anonymous tools/list succeeded, so
+  authorship is knowable: the tool names and descriptions are Co-Legal-specific and the same version string
+  appears on the agent card and /health — a provider-built server, not a shared platform surface.
+deployment:
+  mode: remote
+  endpoint: https://agent.co-legal.be/mcp
+  auth: none
+  verified: probed
+  note: >-
+    A hosted HTTPS endpoint an MCP client POSTs to directly; Co-Legal ships no stdio package (npm, PyPI and
+    the Co-legal GitHub org — 0 public repositories — were searched) and documents no npx/uvx install. auth is
+    "none": initialize and tools/list needed no credential, no session id was issued, and no OAuth metadata
+    is served on the host (/.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource
+    both 404). The provider documents an OPTIONAL x-api-key (or Authorization: Bearer) that raises the
+    fair-use quota; it is a quota credential, not a gate. No tool was invoked (tools/call) by this pipeline.
+servers:
+- id: colegal-legal-lookup
+  name: colegal-legal-lookup
+  endpoint: https://agent.co-legal.be/mcp
+  transport: streamable-http
+  http_methods: [POST]
+  auth: none (optional x-api-key for higher quota)
+  status: live
+  probe:
+    fetched: '2026-09-19'
+    initialize:
+      http_status: 200
+      protocol_version: '2025-06-18'
+      server_info: {name: colegal-legal-lookup, version: 1.27.9, websiteUrl: 'https://co-legal.be/agent'}
+      capabilities: {experimental: {}, prompts: {listChanged: false}, resources: {subscribe: false, listChanged: false}, tools: {listChanged: false}}
+      instructions: >-
+        Co-Legal legal/fiscal lookup tools for Belgium (Vlaams Gewest primary) and the Netherlands. All tools
+        are read-only and hit official public sources, returning a concise answer with citation URLs. Use them
+        to ground answers about Belgian company numbers (KBO/BCE), EU VAT validation (VIES), Belgian & Dutch
+        case law (ECLI), EU legislation (EUR-Lex/CELEX), Belgian legislation (Justel) and Dutch legislation
+        (wetten.overheid.nl). Informational only — not legal advice.
+      file: mcp/co-legal-be-mcp-initialize.json
+      note: No Mcp-Session-Id response header; the server is stateless per request. Response headers carried a2a-version 1.0, x-request-id, HSTS (max-age 31536000; includeSubDomains) and a default-src 'none' CSP.
+    tools_list:
+      http_status: 200
+      content_type: application/json
+      tool_count: 12
+      bytes: 7571
+      file: mcp/co-legal-be-mcp-tools.json
+    prompts_list: {http_status: 200, result: '{"prompts":[]}'}
+    resources_list: {http_status: 200, result: '{"resources":[]}'}
+    get_request: {http_status: 405, body: '{"jsonrpc":"2.0","id":null,"error":{"code":-32000,"message":"Method Not Allowed: this MCP server offers no SSE stream; use POST."}}'}
+  authorship: provider
+  tools:
+  - name: kbo_lookup
+    read_only: true
+    input_schema: {enterprise_number: 'string, required, minLength 10, maxLength 16 — Belgian KBO/BCE number, 10 digits (dots/spaces ok)'}
+    description: Look up a Belgian company by its KBO/BCE enterprise number (10 digits, e.g. 0403.170.701). Returns the official name, status, legal form and start date from the public KBO register, with the source URL.
+    a2a_skill: be.kbo.lookup
+  - name: vies_validate
+    read_only: true
+    input_schema: {vat: 'string, required'}
+    description: Validate an EU VAT number against the official EU VIES service. Returns validity plus, where the member state exposes it, the registered trade name and address. Example BE0403170701.
+    a2a_skill: be.vies.validate
+  - name: ecli_lookup
+    read_only: true
+    input_schema: {ecli: 'string, required'}
+    description: Resolve a Belgian ECLI (European Case Law Identifier) to canonical public lookup URLs (EU e-Justice + Juportal) plus court metadata.
+    a2a_skill: be.ecli.lookup
+  - name: eurlex_lookup
+    read_only: true
+    input_schema: {celex: 'string, required', language: 'string, optional'}
+    description: Resolve an EU CELEX number to its canonical EUR-Lex landing URL plus metadata (sector, document type). Example 32016R0679 (GDPR).
+    a2a_skill: eu.eurlex.lookup
+  - name: erfbelasting_tarieven
+    read_only: true
+    input_schema: {categorie: 'string, optional — heir category; omit for all'}
+    description: Flemish inheritance-tax (erfbelasting) rate brackets, parsed deterministically from the in-force Flemish Tax Code (VCF art. 2.7.4.1.1), for all heir categories.
+    a2a_skill: be.fiscal.erfbelasting
+  - name: legal_lookup
+    read_only: true
+    input_schema: {code: 'string, required — BW, WVV, WIB92, VCF, WBTW, WBE, Sw, Ger.W', article: 'string, optional'}
+    description: Resolve a Belgian legislation reference to its canonical Justel URL.
+    a2a_skill: be.legal.lookup
+  - name: legal_search
+    read_only: true
+    input_schema: {keyword: 'string, required', limit: 'integer, optional'}
+    description: Keyword-search Belgian legislation on Justel and return a search URL plus relevant code hints.
+    a2a_skill: be.legal.search
+  - name: legal_read
+    read_only: true
+    input_schema: {url: 'string, required — must be on the allowlist of official sources (e.g. ejustice.just.fgov.be, eur-lex.europa.eu)', max_chars: 'integer, optional'}
+    description: Fetch and clean the full text of an official Belgian or European legal document (HTML or PDF). Capped at 30,000 characters.
+    a2a_skill: be.legal.read
+  - name: nl_legal_lookup
+    read_only: true
+    input_schema: {code: 'string, required — BW4, Successiewet, Wet IB 2001, Wet OB 1968, BW6, Awb, Sr, Rv', article: 'string, optional'}
+    description: Resolve a Dutch statute reference to its wetten.overheid.nl URL.
+    a2a_skill: nl.legal.lookup
+  - name: nl_rechtspraak_lookup
+    read_only: true
+    input_schema: {ecli: 'string, required'}
+    description: Resolve a Dutch ECLI to canonical case-law URLs (Rechtspraak.nl details, the free Open Data content API, and EU e-Justice).
+    a2a_skill: nl.rechtspraak.lookup
+  - name: iban_validate
+    read_only: true
+    input_schema: {iban: 'string, required'}
+    description: Validate an IBAN's structure (ISO 13616 check digits via MOD-97 + country length). Pure compute; confirms well-formedness, not that the account exists.
+    a2a_skill: iban.validate
+  - name: ecb_rates
+    read_only: true
+    input_schema: {currency: 'string, required — ISO 4217 code'}
+    description: Return the official daily ECB euro reference rate 1 EUR = X currency.
+    a2a_skill: ecb.rates
+  annotations_common: {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true}
+  tools_note: >-
+    The twelve names, descriptions and inputSchemas above are transcribed from the live tools/list response
+    saved verbatim in mcp/co-legal-be-mcp-tools.json; the a2a_skill column is the one-to-one binding recorded
+    in mcp/co-legal-be-tool-crosswalk.yml. Five A2A skills (the LLM answer skill, corpus search/read,
+    citation verification, DOCX drafting) have no MCP tool.
+rate_limits:
+  note: >-
+    The MCP responses probed did not carry RateLimit-* headers; the A2A JSON-RPC responses did (RateLimit-Limit
+    120, X-RateLimit-Tier anon). The provider's payment-options document states rateLimitPolicy
+    dynamic_fair_use for both endpoints. See rate-limits/co-legal-be-rate-limits.yml.
+web_mcp: null
+clients_documented: []

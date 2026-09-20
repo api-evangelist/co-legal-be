@@ -1,0 +1,68 @@
+generated: '2026-09-19'
+method: searched
+source: https://agent.co-legal.be/health
+derived_from:
+- a2a/co-legal-be-agent-card.json
+- mcp/co-legal-be-mcp-initialize.json
+- well-known/co-legal-be-well-known.yml
+docs:
+- https://co-legal.be/security
+- https://co-legal.be/legal
+- https://co-legal.be/llms.txt
+versioning:
+  scheme: 'protocol version negotiated by request header (A2A-Version: 1.0; MCP protocolVersion on initialize); deployment version carried in the documents'
+  current_version: 1.27.9 (agent card version, MCP serverInfo.version, /health version and sha v1.27.9 — all three agree)
+  protocol_versions: {a2a: '1.0', mcp_negotiated: '2025-06-18', mcp_advertised: '2025-11-25'}
+  policy_published: false
+  note: >-
+    The A2A endpoint enforces its protocol version strictly — a request without A2A-Version is treated as 0.3
+    and refused with VERSION_NOT_SUPPORTED — while remaining backward-compatible at the discovery layer by
+    serving a 0.3-shaped card at the legacy /.well-known/agent.json path alongside the 1.0 card. The card is
+    served with Cache-Control public, max-age=3600, must-revalidate and Last-Modified Fri, 18 Sep 2026
+    10:12:37 GMT; the agent page on the apex says "laatst bijgewerkt: 2026-09-15". No semantic-versioning or
+    breaking-change policy is published.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    Nothing is marked deprecated. The legacy agent.json path is still fully served (200, signed) with no
+    Deprecation or Sunset header and no notice in either llms.txt, so its retirement is not announced. No
+    Deprecation pointer is emitted.
+status_page:
+  url: null
+  probed:
+  - {url: 'https://co-legal.be/status', status: 404}
+  - {url: 'https://status.co-legal.be/', status: unresolvable}
+  live_signal:
+    url: https://agent.co-legal.be/health
+    status: 200
+    observed: '{"status":"ok","version":"1.27.9","protocol_version":"1.0","sha":"v1.27.9","uptime_seconds":116651}'
+    note: >-
+      The security page § Status & uptime lists three open healthchecks — /health, the signed agent card
+      (confirms the JWS signing path is up) and the JWKS — and states the partner platform is monitored
+      internally by GCP with incidents communicated by email. A liveness probe is not an incident history or
+      an uptime commitment, so no StatusPage pointer is emitted.
+sla:
+  published: false
+  note: >-
+    No uptime target for the public agent. The security page commits to response TIMELINES instead: security
+    incident triage 0–4 h, notification of affected partners 4–24 h, supervisory-authority assessment within
+    72 h where Co-Legal is controller, written post-mortem within 14 days; GDPR requests answered within 5
+    working days; accessibility reports handled within 30 days. Data retention: task state idle-TTL 24 h,
+    scrubbed request logs max 90 days, live partner data deleted within 30 days of termination.
+changelog:
+  published: false
+  probed:
+  - {url: 'https://co-legal.be/changelog', status: 404}
+  dated_signals:
+  - {date: '2026-09-18', what: 'Last-Modified of the agent card (v1.27.9)'}
+  - {date: '2026-09-15', what: 'apex pages regenerated (build/render.py footer on every .md twin)'}
+  - {date: '2026-09-12', what: 'Terms & privacy page (/legal) "Laatst bijgewerkt"'}
+  - {date: '2026-08-18', what: 'Security & data page "Laatst bijgewerkt"'}
+  - {date: '2026-08-04', what: 'Platform privacy page "Laatst bijgewerkt"'}
+  - {date: '2026-05-19', what: 'robots.txt bot-UA list review date; security.txt Expires is 2027-05-19 (one year on)'}
+  - {date: '2026-03-16', what: 'GitHub organisation Co-legal created (0 public repositories)'}
+security_txt_expiry: '2027-05-19T00:00:00.000Z'

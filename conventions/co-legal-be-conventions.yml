@@ -1,0 +1,120 @@
+generated: '2026-09-19'
+method: searched
+source: https://co-legal.be/llms.txt
+derived_from:
+- a2a/co-legal-be-agent-card.json
+- mcp/co-legal-be-mcp-tools.json
+- mcp/co-legal-be-mcp-initialize.json
+docs:
+- https://co-legal.be/llms.txt
+- https://agent.co-legal.be/llms.txt
+- https://agent.co-legal.be/
+- https://agent.co-legal.be/a2a/extensions/tool-schema/v1
+base_urls:
+  a2a: https://agent.co-legal.be/a2a/jsonrpc
+  mcp: https://agent.co-legal.be/mcp
+media_type: application/json (JSON-RPC 2.0 on both surfaces); text/event-stream for message/stream
+auth:
+  style: Anonymous within a per-IP fair-use quota; one optional API key as x-api-key or Authorization Bearer that raises the quota and unlocks the extended card.
+  detail: authentication/co-legal-be-authentication.yml
+required_headers:
+  a2a:
+  - {header: 'A2A-Version', value: '1.0', note: 'Mandatory on every protocol request; without it the server assumes 0.3 and answers -32009 VERSION_NOT_SUPPORTED. Also returned on every response (a2a-version: 1.0), including MCP and well-known responses.'}
+  - {header: 'A2A-Extensions', note: 'Optional activation header for the four declared extensions (tool-schema/v1, provider-metadata/v1, model-disclosure/v1, MCP discovery/v1); the server echoes it and sets Vary: A2A-Extensions.'}
+  mcp:
+  - {header: 'Accept', value: 'application/json, text/event-stream', note: 'Streamable HTTP; POST only.'}
+write_surface:
+  exists: false
+  note: >-
+    Every MCP tool declares readOnlyHint true / destructiveHint false; every A2A skill is tagged "read"; the
+    provider's llms.txt states "Geen mutaties in cliëntdossiers, registers of andere externe systemen;
+    eventuele conceptdocumenten zijn stateless". co-legal.document.draft produces a DOCX artifact but persists
+    nothing. The only state the API holds is the caller's own A2A task history (idle-TTL 24 h).
+idempotency:
+  supported: true
+  coverage: na
+  mechanism: structural — no mutating operation exists; every MCP tool carries idempotentHint true
+  header: null
+  scope: []
+  retention: null
+  description: >-
+    There is no write surface to protect, so an Idempotency-Key mechanism would have nothing to apply to and
+    none exists. What the provider DOES publish is a machine-readable idempotency declaration per tool: all 12
+    MCP tools carry annotations {readOnlyHint: true, destructiveHint: false, idempotentHint: true,
+    openWorldHint: true}, so an MCP client may retry any tool call after a timeout without side effects.
+    openWorldHint true is honest — each tool queries a live upstream (KBO, VIES, ECB, Justel), so two identical
+    calls can return different data when the source changes; that is freshness, not non-idempotence. Recorded
+    as na for the band gate: the dimension is not applicable to a read-only surface and no Idempotency pointer
+    is emitted.
+dry_run_mode:
+  supported: na
+  status: na
+  note: Nothing to rehearse — no operation has a consequence to preview. The anonymous free tier is the rehearsal environment for the real thing.
+reversibility:
+  grade: na
+  write_operations: []
+  reversal_operations: []
+  note: >-
+    No write surface, so nothing to reverse. The one lifecycle operation the A2A endpoint offers, tasks/cancel,
+    cancels an in-flight task; it does not undo a side effect because there are none. Recorded as na rather
+    than none: the API cannot cost a user anything that would need taking back.
+pagination:
+  styles:
+  - surface: a2a tasks/list
+    style: page token
+    request: {pageSize: 'integer (observed default 50)', pageToken: string}
+    response: {tasks: array, nextPageToken: 'string (empty when exhausted)', pageSize: integer, totalSize: integer}
+    observed: '{"tasks":[],"nextPageToken":"","pageSize":50,"totalSize":0}'
+  - surface: a2a skill be.legal.corpus.read
+    style: cursor
+    request: {document_id: 'string (from be.legal.corpus.search)', cursor: 'string (next_cursor from the previous page)'}
+    response: {next_cursor: 'string or null'}
+    note: 'Skill description: "Follow next_cursor on the same corpus version until it is null to read a long source without silent truncation."'
+  - surface: a2a skill be.legal.corpus.search
+    style: bounded result count
+    request: {max_results: 'integer 1–25, default 6', date_from: 'YYYY-MM-DD', date_to: 'YYYY-MM-DD', prefer_recent: boolean, sources: 'array of up to 12 enum keys', category: enum, jurisdiction: 'enum [belgium, eu, flanders]'}
+  - surface: mcp legal_search
+    style: bounded result count
+    request: {limit: integer}
+filtering:
+  corpus_sources_enum: [belgisch_staatsblad_scrape, eurlex_api, fiscale_rulings, fod_financien_circulaires, grondwettelijk_hof_mbbs, juportal_scrape, justel_scrape, kbo_bedrijven, nbb_jaarrekeningen, ovb_deontologie, vlaamse_codex_api, vlabel_rulings]
+  category_enum: [administrative_guidance, case_law, financial_filing, legislation, official_publication, registry, ruling]
+  jurisdiction_enum: [belgium, eu, flanders]
+  note: Values outside the public allowlist are rejected and reported (be.legal.corpus.search description).
+input_limits:
+- {surface: a2a answer_legal_question, limit: 'max question length 8000 characters; max answer ~8192 output tokens', source: 'https://agent.co-legal.be/'}
+- {surface: mcp legal_read / a2a be.legal.read, limit: 'fetched document capped at 30,000 characters; URL must be on the official-source allowlist', source: tool description}
+- {surface: a2a be.legal.corpus.search, limit: 'query 3–2000 characters; max_results 1–25; sources maxItems 12', source: tool-schema/v1}
+- {surface: a2a be.ecli.lookup, limit: 'ecli 15–80 characters', source: tool-schema/v1}
+- {surface: mcp kbo_lookup, limit: 'enterprise_number 10–16 characters', source: mcp inputSchema}
+languages:
+  input: [nl, fr, en]
+  note: Skills accept Dutch, French or English; EUR-Lex language defaults to NL; security.txt Preferred-Languages nl, en.
+request_tracing:
+  header: x-request-id
+  also: x-cloud-trace-context
+  note: Present on every response observed (well-known, MCP and A2A). Not documented; observed.
+versioning:
+  detail: lifecycle/co-legal-be-lifecycle.yml
+  summary: 'A2A-Version request header (1.0 only); MCP protocolVersion negotiated on initialize (2025-06-18 live, 2025-11-25 advertised); deployment version 1.27.9 in the card, serverInfo and /health.'
+error_envelope:
+  detail: errors/co-legal-be-problem-types.yml
+  summary: 'JSON-RPC 2.0 error {code, message, data[google.rpc.ErrorInfo{reason, domain a2a-protocol.org}]}; discriminate on data[0].reason (the provider reuses -32001 for API_KEY_REQUIRED).'
+rate_limit_signaling:
+  detail: rate-limits/co-legal-be-rate-limits.yml
+  headers: [RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, X-RateLimit-Tier, X-RateLimit-Remaining, X-RateLimit-Capacity, Retry-After (on 429)]
+  exhaustion: 429 RATE_LIMIT_EXCEEDED
+streaming:
+  a2a: 'message/stream over SSE (capabilities.streaming true)'
+  mcp: 'none — POST-only Streamable HTTP; GET /mcp returns 405 "this MCP server offers no SSE stream"'
+  push_notifications: not declared
+multi_turn:
+  a2a: 'message/send with the taskId of a previous task continues a conversation; task state lives in Cloud SQL (EU) with a 24 h idle TTL; no provider-side conversation store beyond that (https://co-legal.be/legal).'
+  mcp: stateless; no session id
+caching:
+  agent_card: 'Cache-Control: public, max-age=3600, must-revalidate; ETag; Last-Modified'
+  system_prompt: 'provider states a five-minute temporary cache of the stable system prompt only'
+outputs:
+  default_output_modes: [text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document]
+  file_artifacts: 'co-legal.document.draft returns a .docx as an A2A FilePart artifact; concept documents carry a mandatory review disclaimer (llms.txt).'
+security_headers_observed: ['Strict-Transport-Security: max-age=31536000; includeSubDomains', "Content-Security-Policy: default-src 'none'; ...", 'X-Frame-Options: DENY', 'X-Content-Type-Options: nosniff', 'Referrer-Policy: strict-origin-when-cross-origin', 'Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()']

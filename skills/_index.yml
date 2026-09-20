@@ -1,0 +1,33 @@
+generated: '2026-09-19'
+method: generated
+source: >-
+  mcp/co-legal-be-mcp-tools.json (live tools/list — every tool name verified) and a2a/co-legal-be-agent-card.json
+  with its tool-schema/v1 extension (every skill id, mode, enum and example verified), plus the provider's
+  llms.txt (both hosts), agent landing page and terms. Co-Legal publishes no OpenAPI, so operations are MCP
+  tool names and A2A skill ids rather than operationIds. The provider publishes no skills of its own:
+  /.well-known/agent-skills/index.json, /AGENTS.md and /skills 404 on both hosts (probed 2026-09-19).
+skills:
+- file: co-legal-be-verify-belgian-company.md
+  name: co-legal-be-verify-belgian-company
+  method: generated
+  description: Resolve a KBO/BCE number, confirm the VAT number against VIES and structurally check an IBAN — three free, idempotent MCP tools with A2A twins.
+  api: mcp/co-legal-be-mcp-tools.json
+  operations: 3
+  operation_ids: [kbo_lookup, vies_validate, iban_validate]
+  a2a_skills: [be.kbo.lookup, be.vies.validate, iban.validate]
+- file: co-legal-be-resolve-legal-citation.md
+  name: co-legal-be-resolve-legal-citation
+  method: generated
+  description: Resolve ECLI, CELEX and Belgian/Dutch statute references to official-source URLs, read the text, and verify citations over A2A before relying on them.
+  api: mcp/co-legal-be-mcp-tools.json
+  operations: 7
+  operation_ids: [ecli_lookup, nl_rechtspraak_lookup, eurlex_lookup, legal_lookup, nl_legal_lookup, legal_search, legal_read]
+  a2a_skills: [be.ecli.lookup, nl.rechtspraak.lookup, eu.eurlex.lookup, be.legal.lookup, nl.legal.lookup, be.legal.search, be.legal.read, legal.citation.verify]
+- file: co-legal-be-ask-legal-question.md
+  name: co-legal-be-ask-legal-question
+  method: generated
+  description: Ask the A2A agent an informational legal/fiscal question with the mandatory A2A-Version header, continue multi-turn, and ground the answer with corpus search and read.
+  api: a2a/co-legal-be-agent-card.json
+  operations: 4
+  operation_ids: [message/send, message/stream, tasks/get, tasks/cancel]
+  a2a_skills: [answer_legal_question, be.legal.corpus.search, be.legal.corpus.read, be.fiscal.erfbelasting]

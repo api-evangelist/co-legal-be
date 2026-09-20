@@ -1,23 +1,240 @@
 aid: co-legal-be
 name: Co-Legal B.V.
-description: 'Co-Legal B.V. is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Co-Legal B.V. is a Dutch company (KvK 42135345, Delft) building AI-native legal software and dossier
+  support for Belgian and cross-border Belgium–Netherlands matters — wealth planning and succession, company
+  law and transactions, tax and finance, real estate — sold to law firms, notaries, accountants and tax
+  advisers by proposal, with the private platform behind Cloudflare Access and Microsoft Entra. Alongside it
+  Co-Legal runs a public, free, anonymous, read-only agent at agent.co-legal.be for informational Belgian and
+  Dutch legal and fiscal source questions: an A2A 1.0 agent card signed with JWS ES256 (verifiable against a
+  published JWKS) declaring 17 skills — KBO/BCE company lookup, EU VIES VAT validation, Belgian and Dutch
+  ECLI case-law resolvers, EUR-Lex/CELEX and Justel/wetten.overheid.nl statute resolvers, Flemish
+  inheritance-tax brackets, ECB reference rates, IBAN validation, public legal-corpus search and read, a
+  citation verifier, DOCX concept drafting and a natural-language answer skill — and a remote MCP server at
+  https://agent.co-legal.be/mcp that answers an anonymous tools/list with 12 of those as read-only,
+  idempotent tools. Everything runs on Google Cloud in the EU with the model (claude-opus-5 via Vertex AI)
+  disclosed inside the card. No OpenAPI is published; the MCP tools/list and the card's tool-schema extension
+  are the machine-readable contract.
+image: https://co-legal.be/assets/icon-512.png
 url: https://raw.githubusercontent.com/api-evangelist/co-legal-be/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-19 (local-v3; was a2a-registry harvest stub)
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
-- Company
-apis: []
+- Legal
+- Legal Research
+- Tax
+- Case Law
+- Legislation
+- Company Registry
+- VAT Validation
+- Belgium
+- Netherlands
+- European Union
+- A2A
+- MCP
+- agent-native
+- AI
+- Legal Tech
+tags_raw:
+- Legal
+- Legal research
+- Tax
+- Case law
+- Legislation
+- Company registry
+- VAT validation
+- Belgium
+- Netherlands
+- European Union
+- A2A
+- MCP
+- Agent-native
+- AI
+- Legal tech
+apis:
+- aid: co-legal-be:co-legal-public-assistant-a2a-agent
+  name: Co-Legal Public Assistant (A2A Agent)
+  description: >-
+    Agent2Agent 1.0 surface of Co-Legal's public legal/fiscal assistant. The agent card at
+    https://agent.co-legal.be/.well-known/agent-card.json (version 1.27.9, JWS ES256-signed, verified against
+    /.well-known/jwks.json) declares one JSONRPC interface at https://agent.co-legal.be/a2a/jsonrpc,
+    streaming, an extended card, four extensions (per-skill JSON Schema 2020-12 input schemas,
+    provider metadata with the KVK registration, model disclosure — claude-opus-5 via Google Cloud Vertex AI,
+    EU — and an MCP discovery pointer) and 17 read-only skills covering Belgian and Dutch statute, case-law and
+    company lookups, VAT and IBAN validation, Flemish inheritance-tax brackets, ECB rates, public
+    legal-corpus search/read, citation verification, DOCX concept drafting and natural-language Q&A in Dutch,
+    French or English. Anonymous within a per-IP fair-use quota advertised in RateLimit-* headers; the
+    A2A-Version: 1.0 request header is mandatory. Informational only — not legal advice.
+  humanURL: https://co-legal.be/agent
+  baseURL: https://agent.co-legal.be/a2a/jsonrpc
+  tags:
+  - A2A
+  - agent-native
+  - Legal Research
+  - Tax
+  - Case Law
+  tags_raw:
+  - A2A
+  - Agent-native
+  - Legal research
+  - Tax
+  - Case law
+  properties:
+  - type: AgentCard
+    url: a2a/co-legal-be-a2a.yml
+  - type: AgentCard
+    name: A2A Agent Card (provider-hosted, signed)
+    url: https://agent.co-legal.be/.well-known/agent-card.json
+  - type: Documentation
+    url: https://agent.co-legal.be/
+  - type: Authentication
+    url: authentication/co-legal-be-authentication.yml
+  - type: RateLimits
+    url: rate-limits/co-legal-be-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/co-legal-be-problem-types.yml
+  - type: LLMsTxt
+    url: llms/co-legal-be-agent-llms.txt
+- aid: co-legal-be:co-legal-legal-lookup-mcp-server
+  name: Co-Legal Legal Lookup MCP Server
+  description: >-
+    Remote Model Context Protocol server at https://agent.co-legal.be/mcp (Streamable HTTP, POST only,
+    negotiated protocol version 2025-06-18, serverInfo colegal-legal-lookup 1.27.9). initialize and tools/list
+    answer anonymously with twelve tools — kbo_lookup, vies_validate, ecli_lookup, eurlex_lookup,
+    erfbelasting_tarieven, legal_lookup, legal_search, legal_read, nl_legal_lookup, nl_rechtspraak_lookup,
+    iban_validate, ecb_rates — each carrying a real inputSchema and MCP annotations declaring it read-only,
+    non-destructive and idempotent over official public sources (KBO/BCE, VIES, e-Justice/Juportal,
+    EUR-Lex, Justel, wetten.overheid.nl, the Flemish Tax Code, the ECB). Discovered through
+    /.well-known/mcp.json and the agent card's MCP discovery extension; no OAuth metadata, no session, no
+    credential required.
+  humanURL: https://co-legal.be/agent
+  baseURL: https://agent.co-legal.be/mcp
+  tags:
+  - MCP
+  - agent-native
+  - Legal Research
+  - Company Registry
+  - VAT Validation
+  tags_raw:
+  - MCP
+  - Agent-native
+  - Legal research
+  - Company registry
+  - VAT validation
+  properties:
+  - type: MCPServer
+    url: mcp/co-legal-be-mcp.yml
+  - type: MCPServer
+    name: Co-Legal MCP endpoint (Streamable HTTP)
+    url: https://agent.co-legal.be/mcp
+  - type: MCPServer
+    name: MCP discovery pointer
+    url: https://agent.co-legal.be/.well-known/mcp.json
+  - type: ToolCrosswalk
+    url: mcp/co-legal-be-tool-crosswalk.yml
+  - type: Documentation
+    url: https://agent.co-legal.be/
+  - type: Authentication
+    url: authentication/co-legal-be-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: VulnerabilityDisclosure
+  url: security/co-legal-be-vulnerability-disclosure.yml
+- type: Security
+  name: Security & data page (RFC 9116 Policy target)
+  url: https://co-legal.be/security
+- type: DomainSecurity
+  url: security/co-legal-be-domain-security.yml
 - type: Website
   url: https://co-legal.be/
+- type: DeveloperPortal
+  url: https://agent.co-legal.be/
+- type: Documentation
+  url: https://co-legal.be/agent
+- type: APIReference
+  name: Signed A2A Agent Card (skills, schemes, per-skill JSON Schemas)
+  url: https://agent.co-legal.be/.well-known/agent-card.json
+- type: GettingStarted
+  name: Invocation quickstart (curl) on the agent landing page
+  url: https://agent.co-legal.be/
+- type: FAQ
+  url: https://co-legal.be/veelgestelde-vragen
+- type: Support
+  url: https://co-legal.be/contact
+- type: Blog
+  url: https://co-legal.be/blog
+- type: BlogRSS
+  url: https://co-legal.be/feed.xml
+- type: Pricing
+  name: Machine-readable payment options (free tier live; subscription and x402 announced)
+  url: https://agent.co-legal.be/.well-known/payment-options.json
+- type: TermsOfService
+  url: https://co-legal.be/legal
+- type: TermsOfService
+  name: Public Assistant terms (Legal Context Protocol)
+  url: https://agent.co-legal.be/legal/terms
+- type: PrivacyPolicy
+  url: https://co-legal.be/legal
+- type: PrivacyPolicy
+  name: Platform privacy (processor role)
+  url: https://co-legal.be/platform-privacy
+- type: SecurityTxt
+  url: well-known/co-legal-be-security.txt
+- type: WellKnown
+  url: well-known/co-legal-be-well-known.yml
+- type: AgentCard
+  url: a2a/co-legal-be-a2a.yml
+- type: MCPServer
+  url: mcp/co-legal-be-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/co-legal-be-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/co-legal-be-llms.txt
+- type: Authentication
+  url: authentication/co-legal-be-authentication.yml
+- type: Conventions
+  url: conventions/co-legal-be-conventions.yml
+- type: ErrorCatalog
+  url: errors/co-legal-be-problem-types.yml
+- type: RateLimits
+  url: rate-limits/co-legal-be-rate-limits.yml
+- type: Plans
+  url: plans/co-legal-be-plans-pricing.yml
+- type: Conformance
+  url: conformance/co-legal-be-conformance.yml
+- type: Lifecycle
+  url: lifecycle/co-legal-be-lifecycle.yml
+- type: Packages
+  url: packages/co-legal-be-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AccessibilityConformance
+  url: https://co-legal.be/legal
+- type: Subprocessors
+  url: https://co-legal.be/security
+- type: IncidentNotification
+  url: https://co-legal.be/security
+- type: DataSubjectRequest
+  url: https://co-legal.be/legal
+- type: DataResidency
+  url: https://co-legal.be/security
+- type: AITransparency
+  url: https://agent.co-legal.be/.well-known/agent-card.json
+- type: GlobalPrivacyControl
+  url: https://co-legal.be/legal
+- type: ExitAssistance
+  url: https://co-legal.be/security
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v3

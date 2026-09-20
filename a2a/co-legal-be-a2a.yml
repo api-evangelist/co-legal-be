@@ -1,0 +1,235 @@
+generated: '2026-09-19'
+method: probed
+source: https://agent.co-legal.be/.well-known/agent-card.json
+card:
+  file: a2a/co-legal-be-agent-card.json
+  legacy_file: a2a/co-legal-be-agent-card-legacy.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: agent.co-legal.be
+  note: >-
+    The card is served from the dedicated agent host, not the apex. https://co-legal.be/.well-known/agent-card.json
+    and /.well-known/agent.json both answer 302 to the same paths on agent.co-legal.be, so the apex delegates
+    rather than 404s; www.co-legal.be 301s to the apex first. agent.co-legal.be returns a real 9-byte text/plain
+    404 for unknown /.well-known/* paths and for a negative-control path that cannot exist
+    (/.well-known/co-legal-be-negative-control-7f3ab91c.json), so the 200 is a served document and not a
+    catch-all. Ownership is not in question: agent.co-legal.be is a subdomain of the company's registrable
+    domain; the card's provider.organization is "Co-Legal B.V." with provider.url https://co-legal.be; the
+    provider-metadata/v1 extension names KVK 42135345 (NL), the same registration the apex /legal and /contact
+    pages carry; and the company's own /llms.txt names this exact URL as "AgentCard". The company is a Dutch
+    B.V. (Delft) trading under a .be domain because its subject matter is Belgian law — a jurisdiction choice,
+    not a domain mismatch.
+  legacy_path_note: >-
+    /.well-known/agent.json (the pre-0.3 path) ALSO answers 200 on agent.co-legal.be, but with a DIFFERENT
+    document (25,028 vs 25,122 bytes): a 0.3-flavoured projection carrying top-level url, preferredTransport
+    JSONRPC, flat OpenAPI-style securitySchemes ({type: apiKey, in: header, name: x-api-key}), a top-level
+    security[] array, termsOfService and contactEmail, with per-skill `security` instead of
+    `securityRequirements` — and its own ES256 signature. Saved verbatim as
+    a2a/co-legal-be-agent-card-legacy.json. The provider serves both shapes on purpose, one per reader
+    generation; the canonical 1.0-shaped card at agent-card.json is the graded document.
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://agent.co-legal.be/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  body_bytes: 25122
+  body_parses_as: JSON object with AgentCard shape (name, version, provider, supportedInterfaces, capabilities, defaultInputModes, defaultOutputModes, securitySchemes, securityRequirements, skills, signatures)
+  response_headers:
+    a2a-version: '1.0'
+    last-modified: Fri, 18 Sep 2026 10:12:37 GMT
+    cache-control: public, max-age=3600, must-revalidate
+    etag: '"00e43d990166a8aed80df8b23e1f3da9"'
+    strict-transport-security: max-age=31536000; includeSubDomains
+    vary: A2A-Extensions
+    server: Google Frontend
+  signature_verification:
+    result: verified
+    alg: ES256
+    kid: colegal-agent-es256-1
+    jku: https://agent.co-legal.be/.well-known/jwks.json
+    typ: JOSE
+    method: >-
+      The JWS protected header decodes to {"alg":"ES256","kid":"colegal-agent-es256-1","jku":"https://agent.co-legal.be/.well-known/jwks.json","typ":"JOSE"}.
+      The P-256 public key with that kid was fetched from the jku (well-known/co-legal-be-jwks.json) and the
+      detached signature verified over base64url(protected) + "." + base64url(JCS-canonical card body with
+      signatures removed), using a JCS-equivalent canonicalisation (RFC 8785 ordering, compact separators,
+      raw UTF-8). The verification succeeded on 2026-09-19. This is the first card in the catalog whose
+      signature was checked rather than merely noted.
+  corroborating_probes:
+  - url: https://co-legal.be/.well-known/agent-card.json
+    http_status: 302
+    note: Redirects to https://agent.co-legal.be/.well-known/agent-card.json.
+  - url: https://co-legal.be/.well-known/agent.json
+    http_status: 302
+    note: Redirects to https://agent.co-legal.be/.well-known/agent.json.
+  - url: https://www.co-legal.be/.well-known/agent-card.json
+    http_status: 301
+    note: Redirects to the apex, which then 302s to the agent host.
+  - url: https://agent.co-legal.be/.well-known/agent.json
+    http_status: 200
+    note: Legacy path, different (0.3-shaped) body — see discovery.legacy_path_note.
+  - url: https://agent.co-legal.be/.well-known/jwks.json
+    http_status: 200
+    note: One EC P-256 key, alg ES256, use sig, kid colegal-agent-es256-1 — matches the card signature's kid.
+  - url: https://agent.co-legal.be/a2a/jsonrpc
+    method: POST
+    headers: {A2A-Version: '1.0'}
+    body: '{"jsonrpc":"2.0","id":1,"method":"tasks/list","params":{}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":1,"result":{"tasks":[],"nextPageToken":"","pageSize":50,"totalSize":0}}'
+    note: A real A2A 1.0 JSON-RPC responder. Response carried RateLimit-Limit 120 / RateLimit-Remaining 119 / RateLimit-Reset 0 and X-RateLimit-Tier anon. No message was sent.
+  - url: https://agent.co-legal.be/a2a/jsonrpc
+    method: POST
+    headers: {}
+    body: '{"jsonrpc":"2.0","id":1,"method":"tasks/list","params":{}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":1,"error":{"code":-32009,"message":"A2A protocol version ''0.3'' is not supported; use ''1.0''","data":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"VERSION_NOT_SUPPORTED","domain":"a2a-protocol.org","metadata":{}}]}}'
+    note: Without the A2A-Version request header the server assumes 0.3 and refuses — the header is mandatory, as the provider's llms.txt and agents.txt state.
+  - url: https://agent.co-legal.be/a2a/jsonrpc
+    method: POST
+    headers: {A2A-Version: '1.0'}
+    body: '{"jsonrpc":"2.0","id":2,"method":"agent/getAuthenticatedExtendedCard","params":{}}'
+    http_status: 401
+    response: '{"jsonrpc":"2.0","id":2,"error":{"code":-32001,"message":"The extended AgentCard requires an `x-api-key` header. Contact contact@co-legal.be to request a key.","data":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"API_KEY_REQUIRED","domain":"a2a-protocol.org","metadata":{}}]}}'
+    note: The extended card (paid skills) is key-gated, consistent with capabilities.extendedAgentCard true. Not read.
+  - url: https://agent.co-legal.be/extendedAgentCard
+    http_status: 401
+    response: '{"error":"Missing or invalid `x-api-key`. The extended AgentCard is only available to authenticated callers; contact ops@co-legal.be to request a key."}'
+  - url: https://agent.co-legal.be/.well-known/ai-catalog.json
+    http_status: 200
+    content_type: application/ai-catalog+json
+    note: AI Catalog 1.0 index for host identifier co-legal.be listing exactly one entry, urn:air:co-legal.be:a2a:colegal-public-assistant of type application/a2a-agent-card+json pointing at this card.
+  - url: https://a2aregistry.org
+    note: The card entered the harvest backlog via the a2a-registry listing; the document above was fetched directly from the provider's host.
+agent_card:
+  name: colegal-public-assistant
+  description: >-
+    Co-Legal Public Assistant — an AI assistant for informational Q&A about Belgian and Dutch private-client
+    legal and fiscal topics (inheritance & gift tax, company law, VAT, succession planning, case-law & statute
+    lookups). Informational only; does not provide specific legal advice. Operated by Co-Legal B.V. from the
+    Netherlands.
+  version: 1.27.9
+  provider:
+    organization: Co-Legal B.V.
+    url: https://co-legal.be
+  documentation_url: https://agent.co-legal.be/
+  icon_url: https://agent.co-legal.be/icon.svg
+  supported_interfaces:
+  - url: https://agent.co-legal.be/a2a/jsonrpc
+    protocol_binding: JSONRPC
+    protocol_version: '1.0'
+  capabilities:
+    streaming: true
+    extended_agent_card: true
+    push_notifications: null
+    extensions:
+    - uri: https://agent.co-legal.be/a2a/extensions/tool-schema/v1
+      required: false
+      note: Per-skill JSON Schema 2020-12 input schemas for 16 skills, keyed by skill id; the extension document itself is served at that URI (200, application/json, 9,237 bytes) with activation via the A2A-Extensions request/response header.
+    - uri: https://agent.co-legal.be/a2a/extensions/provider-metadata/v1
+      required: false
+      params: {contactEmail: ops@co-legal.be, termsOfService: 'https://co-legal.be/legal', legalEntity: {registrationNumber: '42135345', registry: KVK, jurisdiction: NL}}
+    - uri: https://agent.co-legal.be/a2a/extensions/model-disclosure/v1
+      required: false
+      params: {model: claude-opus-5, modelProvider: Anthropic via Google Cloud Vertex AI, processingRegion: EU}
+    - uri: https://modelcontextprotocol.io/extensions/discovery/v1
+      required: false
+      params: {url: 'https://agent.co-legal.be/mcp', protocolVersion: '2025-11-25', discoveryUrl: 'https://agent.co-legal.be/.well-known/mcp.json'}
+  default_input_modes: [text/plain, application/json]
+  default_output_modes: [text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document]
+  security_schemes:
+    apiKeyAuth: {type: apiKeySecurityScheme, location: header, name: x-api-key, description: Optional API key for higher rate limits; anonymous callers accepted within the per-IP cap.}
+    httpBearer: {type: httpAuthSecurityScheme, scheme: bearer, description: 'The same optional key as Authorization: Bearer <key> (RFC 6750).'}
+  security_requirements: '[{}, {apiKeyAuth: []}, {httpBearer: []}] — the empty first alternative means anonymous access is a declared, first-class option.'
+  skill_count: 17
+  skills:
+  - {id: answer_legal_question, name: Answer Belgian/Dutch private-client legal/fiscal question, input: text/plain, tags: [read, 'domain:legal', 'domain:fiscal', 'domain:company-law', 'domain:incorporation', 'jurisdiction:BE', 'jurisdiction:vlaams-gewest', 'jurisdiction:NL'], examples: 9}
+  - {id: be.ecli.lookup, name: Belgian ECLI case-law resolver, examples: 3}
+  - {id: eu.eurlex.lookup, name: EU CELEX (EUR-Lex) resolver, examples: 3}
+  - {id: be.legal.corpus.search, name: Belgian & EU public legal-corpus search, examples: 3}
+  - {id: be.legal.corpus.read, name: Read a page of a public legal source, examples: 2}
+  - {id: be.legal.lookup, name: Belgian statute (Justel) resolver, examples: 3}
+  - {id: legal.citation.verify, name: Legal citation verifier, tags_of_note: [verification, anti-hallucination], examples: 3}
+  - {id: co-legal.document.draft, name: Draft a concept document (DOCX), output: application/vnd.openxmlformats-officedocument.wordprocessingml.document as an A2A FilePart, examples: 3}
+  - {id: ecb.rates, name: ECB euro reference exchange rate, examples: 2}
+  - {id: be.fiscal.erfbelasting, name: Flemish inheritance-tax rates, source_tag: 'source:official-live', examples: 3}
+  - {id: iban.validate, name: IBAN structural validator, source_tag: 'source:deterministic', examples: 2}
+  - {id: be.kbo.lookup, name: Belgian enterprise (KBO/BCE) lookup, examples: 2}
+  - {id: be.legal.search, name: Belgian Justel search-link builder (no result rows), examples: 3}
+  - {id: be.legal.read, name: Belgian/EU legal document reader, examples: 3}
+  - {id: nl.legal.lookup, name: Dutch statute (wetten.overheid.nl) resolver, examples: 3}
+  - {id: nl.rechtspraak.lookup, name: Dutch ECLI case-law resolver, examples: 2}
+  - {id: be.vies.validate, name: EU VAT number validation (VIES), examples: 2}
+  skill_invocation: >-
+    Structured skills are invoked with a message carrying a kind:"data" part whose fields follow the skill's
+    JSON Schema from the tool-schema/v1 extension; answer_legal_question takes a kind:"text" part. Methods
+    declared by the provider: message/send (single and multi-turn via taskId), message/stream (SSE),
+    tasks/get, tasks/list, tasks/cancel. Every skill is tagged read; the provider states no mutations occur
+    in client files, registers or external systems.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: '1.0'
+  preferred_transport: null
+  transport: JSONRPC (via supportedInterfaces[0].protocolBinding)
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields:
+    default_input_modes: true
+    default_output_modes: true
+    preferred_transport: false
+  grade_basis: >-
+    Graded against the A2A 1.0.0 hard checks. capabilities is an OBJECT (pass) with streaming,
+    extendedAgentCard and a four-entry extensions[] array. protocolVersion is present (pass), declared as
+    "1.0" on supportedInterfaces[0], which is where A2A 1.0.0 carries it after supportedInterfaces[] replaced
+    the 0.3-era top-level url/preferredTransport/protocolVersion triple — the same 1.0 shape leadping was
+    graded conformant on. skills is an ARRAY (pass) of 17 fully-populated skills, each with id, name,
+    description, tags, inputModes, outputModes and examples. Both optional discriminators are present:
+    defaultInputModes and defaultOutputModes. preferredTransport is absent because 1.0.0 superseded it with
+    supportedInterfaces[].protocolBinding, which the card declares (JSONRPC). The live endpoint enforces the
+    same version — it rejects a request without A2A-Version: 1.0 with VERSION_NOT_SUPPORTED — and the card
+    is signed (JWS ES256, verified against the published JWKS), which A2A 1.0 defines in signatures[] and
+    which almost no card in the catalog carries.
+  deviations:
+  - field: protocolVersion / url / preferredTransport
+    observed: absent at the top level; carried on supportedInterfaces[0]
+    note: >-
+      Spec-current for 1.0.0. A reader written against A2A 0.3.0 finds no top-level protocolVersion and may
+      misread the card as version-less; the provider mitigates this by serving a separate 0.3-shaped document
+      at the legacy /.well-known/agent.json path (see discovery.legacy_path_note). Recorded because the two
+      shapes coexist in the wild, not as a fault.
+  - field: securitySchemes
+    observed: A2A 1.0.0 protobuf-JSON oneof wrappers (apiKeySecurityScheme / httpAuthSecurityScheme) rather than flat OpenAPI-style objects
+    note: A naive reader looking for type/in/name at the top of each scheme object finds a wrapper key instead. The legacy document uses the flat form.
+  - field: securityRequirements[].schemes.*.list
+    observed: empty arrays
+    note: No scope vocabulary — the key is a quota credential, not an authorisation grant, so an empty list is accurate rather than incomplete.
+  - field: skills[].inputSchema
+    observed: not a native field; carried in the vendor extension tool-schema/v1
+    note: >-
+      A2A 1.0.0 AgentSkill has no inputSchema, so the provider ships JSON Schema 2020-12 per skill through an
+      optional extension and says so in the extension description. An agent that ignores extensions sees
+      only prose descriptions and examples; one that reads them gets a real parameter contract for 16 of 17
+      skills. The extension document is also fetchable at its URI.
+  - field: capabilities.pushNotifications
+    observed: absent
+    note: Optional; streaming is declared true (message/stream over SSE per the provider's llms.txt). No webhook/push surface.
+  - field: signatures[0].protected.typ
+    observed: JOSE
+    note: The provider's llms.txt describes the choice explicitly ("no typ:JWT"). Verified — see x-evidence.signature_verification.
+  - field: extendedAgentCard
+    observed: true, gated by x-api-key (401 without one)
+    note: The public card is complete for the anonymous surface; paid skills live only in the extended projection, which this pipeline did not read.
+surface_relationship:
+  note: >-
+    Co-Legal publishes two agent surfaces on one host and NO REST contract. A2A: 17 skills at
+    https://agent.co-legal.be/a2a/jsonrpc — the full surface, including the LLM answer skill, corpus
+    search/read, citation verification and DOCX drafting. MCP: 12 read-only lookup tools at
+    https://agent.co-legal.be/mcp, each of which maps one-to-one onto an A2A skill (see
+    mcp/co-legal-be-tool-crosswalk.yml); the card advertises the MCP endpoint through the
+    modelcontextprotocol.io discovery/v1 extension and the host serves /.well-known/mcp.json, which in turn
+    points back at this card under alternatives.a2a. The two are deliberately projections of one deployment
+    (same serverInfo version 1.27.9 on MCP, same version on the card and on /health).

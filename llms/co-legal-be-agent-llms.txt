@@ -1,0 +1,15 @@
+# Co-Legal Public Assistant
+
+> A2A v1.0 agent for Belgian and Dutch private-client legal & fiscal Q&A (inheritance/gift tax, company law, VAT, succession planning, case-law & statute lookups). Informational only — not legal advice. Operated by Co-Legal B.V. from the Netherlands.
+
+## Discovery
+- [AgentCard](https://agent.co-legal.be/.well-known/agent-card.json): signed A2A v1.0 card (skills, auth, signature)
+- [AI Catalog](https://agent.co-legal.be/.well-known/ai-catalog.json): AI Catalog 1.0 domain index
+- [JWKS](https://agent.co-legal.be/.well-known/jwks.json): public keys to verify the card signature
+- [MCP](https://agent.co-legal.be/.well-known/mcp.json): Model Context Protocol discovery pointer
+- [Legal Context](https://agent.co-legal.be/.well-known/legal-context.json): LCP v1 (L2) — terms + tamper-evident hash
+
+## Invocation
+- POST https://agent.co-legal.be/a2a/jsonrpc — JSON-RPC 2.0 (`message/send`, `message/stream`, `tasks/*`)
+- Send `A2A-Version: 1.0` on every protocol request.
+- Anonymous, rate-limited. Optional `x-api-key` / `Authorization: Bearer` lifts the quota.

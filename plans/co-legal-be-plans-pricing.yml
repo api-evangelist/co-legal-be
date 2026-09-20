@@ -1,0 +1,60 @@
+generated: '2026-09-19'
+method: probed
+source: https://agent.co-legal.be/.well-known/payment-options.json
+docs:
+- https://agent.co-legal.be/
+- https://co-legal.be/veelgestelde-vragen
+- https://co-legal.be/starten
+plan_count: 1
+currency: null
+model: free anonymous fair-use access to the public agent; platform pricing by proposal only
+summary: >-
+  Co-Legal publishes a machine-readable payment-options document (version 1, commerceEnabled false) that
+  declares exactly one AVAILABLE plan — free, no registration, dynamic fair-use rate limiting — for both the
+  A2A endpoint and the MCP endpoint, and two ANNOUNCED-BUT-UNAVAILABLE options: a Stripe "pro" subscription
+  capped at 1000 calls per month and an x402 v2 pay-per-call scheme, both with null price, null endpoints and
+  available: false. The agent landing page says "Free access remains available within fair-use limits. Live
+  subscription and x402 availability is published in the machine-readable payment options." For the private
+  dossier platform there is no public price: the FAQ states "Een platformprijs is niet publiek vastgelegd" and
+  the onboarding page "Staat er een vaste prijs op de website? Nee." An optional API key that raises the quota
+  is issued by email, not sold.
+plans:
+- id: free
+  name: Free (anonymous fair use)
+  price: 0
+  currency: null
+  period: null
+  status: available
+  registration_required: false
+  included:
+  - 'A2A JSON-RPC endpoint https://agent.co-legal.be/a2a/jsonrpc (protocol 1.0; A2A-Version: 1.0 header required)'
+  - MCP endpoint https://agent.co-legal.be/mcp
+  - all 17 public A2A skills and 12 MCP tools
+  limits:
+  - 'rateLimitPolicy dynamic_fair_use — observed RateLimit-Limit 120 (burst) per IP; 600 questions per hour per IP per the landing page'
+  - max question length 8000 characters
+  - max answer ~8192 output tokens
+  overage: 429 RATE_LIMIT_EXCEEDED with Retry-After; an optional x-api-key (by email) raises the quota
+  terms: https://co-legal.be/legal
+  source: payment-options.json free{available true, registrationRequired false, rateLimitPolicy dynamic_fair_use}
+announced_not_available:
+- id: pro
+  name: Pro subscription
+  provider: stripe
+  price: null
+  currency: null
+  period: month
+  monthly_call_limit: 1000
+  status: not available
+  source: 'payment-options.json subscription{available false, provider stripe, plan pro, monthlyCallLimit 1000, price null, checkoutEndpoint null, accountEndpoint null, portalEndpoint null}'
+- id: pay-per-call
+  name: x402 pay-per-call
+  provider: x402
+  version: 2
+  price: null
+  status: not available
+  source: 'payment-options.json payPerCall{available false, provider x402, version 2, price null, network null, endpoint null, discovery null}'
+platform:
+  name: Co·Legal partner platform (private dossier environment)
+  price: not published — proposal per firm
+  source: 'https://co-legal.be/veelgestelde-vragen — "Wat kost het platform? Een platformprijs is niet publiek vastgelegd."'

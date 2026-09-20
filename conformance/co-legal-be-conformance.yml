@@ -1,0 +1,181 @@
+generated: '2026-09-19'
+method: searched
+source: https://agent.co-legal.be/.well-known/agent-card.json
+derived_from:
+- a2a/co-legal-be-agent-card.json
+- mcp/co-legal-be-mcp-tools.json
+- mcp/co-legal-be-mcp-initialize.json
+- well-known/co-legal-be-well-known.yml
+docs:
+- https://co-legal.be/llms.txt
+- https://co-legal.be/security
+- https://co-legal.be/legal
+- https://agent.co-legal.be/
+summary: >-
+  Co-Legal's conformance profile is the agent-protocol stack plus the identifier standards of the European
+  legal domain, rather than any enterprise API standard: an A2A 1.0 agent card signed with JWS ES256 (verified
+  against a published RFC 7517 JWK Set), an MCP server negotiating protocol version 2025-06-18 whose twelve
+  tools all carry MCP tool annotations, JSON-RPC 2.0 on both, JSON Schema 2020-12 parameter contracts, IETF
+  RateLimit-* response headers observed live, RFC 6750 bearer as an optional quota credential, an RFC 9116
+  security.txt, an AI Catalog 1.0 index and a Legal Context Protocol v1 pointer. It declares no OAuth 2.0 /
+  OIDC, no RFC 9728 protected-resource metadata, no RFC 9457 problem details (errors are JSON-RPC objects with
+  google.rpc.ErrorInfo data), no RFC 9727 API catalog and no OpenAPI. The domain-standard signature is strong
+  and contract-level: the tool and skill schemas are keyed on ECLI, CELEX, KBO/BCE enterprise numbers, EU VIES
+  VAT numbers, ISO 13616 IBANs and ISO 4217 currency codes.
+standards:
+- id: a2a
+  name: Agent2Agent protocol
+  version: '1.0'
+  conforms: true
+  evidence: a2a/co-legal-be-agent-card.json — supportedInterfaces[0] {url https://agent.co-legal.be/a2a/jsonrpc, protocolBinding JSONRPC, protocolVersion "1.0"}, capabilities object, skills[] of 17, securitySchemes in 1.0 oneof form, signatures[]; POST tasks/list with A2A-Version 1.0 returned a real result and the server rejects requests without that header with -32009 VERSION_NOT_SUPPORTED. Graded conformant in a2a/co-legal-be-a2a.yml.
+- id: a2a-agent-card-signature
+  name: A2A AgentCard JWS signature (RFC 7515 JWS, ES256)
+  conforms: true
+  evidence: 'signatures[0].protected = {"alg":"ES256","kid":"colegal-agent-es256-1","jku":"https://agent.co-legal.be/.well-known/jwks.json","typ":"JOSE"}; verified 2026-09-19 against the P-256 key at the jku (well-known/co-legal-be-jwks.json). The legacy agent.json body carries its own valid-shape signature.'
+- id: rfc7517-jwks
+  name: JSON Web Key Set
+  conforms: true
+  evidence: https://agent.co-legal.be/.well-known/jwks.json — one EC/P-256/ES256 signing key, kid colegal-agent-es256-1.
+- id: mcp
+  name: Model Context Protocol
+  version: '2025-06-18'
+  conforms: true
+  evidence: 'POST https://agent.co-legal.be/mcp initialize returned protocolVersion "2025-06-18", serverInfo {colegal-legal-lookup, 1.27.9}, capabilities for tools/prompts/resources; tools/list returned 12 tools each with inputSchema and annotations {readOnlyHint, destructiveHint, idempotentHint, openWorldHint}. See mcp/co-legal-be-mcp.yml.'
+  note: The discovery pointer (/.well-known/mcp.json) and the card's discovery extension advertise protocolVersion 2025-11-25; the live server negotiated the client-offered 2025-06-18, which is the version-negotiation behaviour the spec prescribes.
+- id: mcp-discovery-extension
+  name: modelcontextprotocol.io discovery/v1 (A2A extension) + /.well-known/mcp.json pointer
+  conforms: true
+  evidence: a2a/co-legal-be-agent-card.json capabilities.extensions[] uri https://modelcontextprotocol.io/extensions/discovery/v1 with params {url, protocolVersion, discoveryUrl}; well-known/co-legal-be-mcp.json {name, version, protocolVersion, transports[streamable-http], alternatives.a2a, status available}.
+- id: json-rpc-2.0
+  conforms: true
+  evidence: 'Both /mcp and /a2a/jsonrpc answer {"jsonrpc":"2.0", ...}; observed error objects -32000, -32001, -32009 with google.rpc.ErrorInfo in data[].'
+- id: json-schema-2020-12
+  name: JSON Schema draft 2020-12
+  conforms: true
+  evidence: Every per-skill schema in the tool-schema/v1 extension declares "$schema":"https://json-schema.org/draft/2020-12/schema" (16 schemas); MCP inputSchemas are JSON Schema objects with title/properties/required/minLength/maxLength.
+- id: ietf-ratelimit-headers
+  name: IETF RateLimit header fields (draft-ietf-httpapi-ratelimit-headers)
+  conforms: true
+  evidence: Observed on POST /a2a/jsonrpc 2026-09-19 — RateLimit-Limit 120, RateLimit-Remaining 119, RateLimit-Reset 0, alongside legacy X-RateLimit-Tier anon, X-RateLimit-Remaining 119, X-RateLimit-Capacity 120. The provider's llms.txt names both header families and Retry-After on 429.
+- id: rfc6750-bearer
+  name: OAuth 2.0 Bearer Token Usage (as an API-key carrier)
+  conforms: true
+  evidence: 'securitySchemes.httpBearer.httpAuthSecurityScheme {scheme bearer, description "The same optional API key presented as Authorization: Bearer <key> (RFC 6750)"}.'
+  note: The bearer is an opaque API key, not an OAuth 2.0 access token; no authorization server exists.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: https://co-legal.be/.well-known/security.txt — Contact, Expires (2027-05-19), Preferred-Languages, Canonical, Policy; saved as well-known/co-legal-be-security.txt.
+- id: rfc8615-well-known
+  conforms: true
+  evidence: Nine served /.well-known/ documents across two hosts, with real 404s for a negative-control path (well-known/co-legal-be-well-known.yml).
+- id: ai-catalog-1.0
+  name: AI Catalog 1.0 (ARD/AIR capability catalog)
+  conforms: true
+  evidence: https://agent.co-legal.be/.well-known/ai-catalog.json served as application/ai-catalog+json — specVersion 1.0, host identifier co-legal.be, one entry of type application/a2a-agent-card+json.
+- id: legal-context-protocol
+  name: Legal Context Protocol v1 (assurance Level 2)
+  conforms: true
+  verification: declared
+  evidence: >-
+    https://agent.co-legal.be/.well-known/legal-context.json — {terms https://agent.co-legal.be/legal/terms,
+    termsFormat markdown, atrHash 0x1487...b2fa}; the terms document says it is published "under the Legal
+    Context Protocol (LCP) v1, assurance Level 2 (Provable)". The atrHash was not recomputed.
+- id: llms-txt
+  conforms: true
+  evidence: Provider-authored /llms.txt on both hosts (llms/co-legal-be-llms.txt, llms/co-legal-be-agent-llms.txt); /llms-full.txt also served on the apex.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 scheme in the card; /.well-known/oauth-authorization-server 404 on both hosts. The only credential is an optional API key obtained by email.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on both hosts.
+- id: rfc9728-protected-resource-metadata
+  conforms: false
+  evidence: /.well-known/oauth-protected-resource 404 on agent.co-legal.be (the MCP resource host) and on the apex.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are JSON-RPC 2.0 error objects whose data[] carries a google.rpc.ErrorInfo {@type, reason, domain a2a-protocol.org, metadata}; the REST-style 401 on /extendedAgentCard is {"error": "..."}. No application/problem+json observed. See errors/co-legal-be-problem-types.yml.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog and /.well-known/api-catalog.json 404 on both hosts.
+- id: apis-json
+  conforms: false
+  evidence: /apis.json, /apis.yml and /.well-known/apis.json 404 on both hosts.
+- id: openapi
+  conforms: false
+  evidence: No OpenAPI/Swagger document on either host (see mcp/co-legal-be-tool-crosswalk.yml surfaces.openapi). The machine-readable contract is the MCP tools/list plus the A2A card and its tool-schema extension.
+- id: x402
+  name: x402 HTTP payment protocol
+  conforms: false
+  evidence: 'well-known/co-legal-be-payment-options.json payPerCall {provider x402, version 2, available false, price null, network null}; /.well-known/x402 404. Announced as a future option, not live. commerceEnabled false.'
+- id: wcag-2.2-aa
+  name: WCAG 2.2 Level AA (website accessibility statement)
+  conforms: true
+  verification: self-declared
+  evidence: https://co-legal.be/legal § Toegankelijkheidsverklaring — "Co-Legal B.V. streeft naar conformiteit met WCAG 2.2 AA voor deze website" with enumerated measures and a 30-day handling commitment for reported issues. A statement of intent and measures, not an audited conformance report or VPAT. Recorded in regulatory/.
+- id: gdpr-art28-processor
+  name: GDPR Article 28 processor arrangement
+  conforms: true
+  verification: declared
+  evidence: https://co-legal.be/security § DPA / verwerkersovereenkomst — a processor agreement covering standard EU processor clauses, data portability, incident notification within 24 h of discovery and sub-processor changes, available as a template on request; https://co-legal.be/platform-privacy states the firm is controller and Co-Legal processor. The DPA text itself is not published anonymously.
+domain_standards:
+  note: >-
+    0.12.0 domain_standard_conformance reads the CONTRACT. Co-Legal's contract is the MCP tools/list and the
+    A2A card + tool-schema extension; every identifier below is declared as a typed, constrained input there,
+    which is the difference between "mentions ECLI on a web page" and "accepts an ECLI as a schema-validated
+    parameter". Each row cites the exact location.
+  standards:
+  - id: ecli
+    name: European Case Law Identifier (Council conclusions 2011/C 127/01)
+    conforms: true
+    domain_standard_signature: true
+    evidence: 'mcp/co-legal-be-mcp-tools.json tools ecli_lookup {ecli} and nl_rechtspraak_lookup {ecli}; a2a tool-schema/v1 params be.ecli.lookup.properties.ecli ("Shape: ECLI:BE:<court>:<year>:<serial>", minLength 15, maxLength 80) and nl.rechtspraak.lookup; skill legal.citation.verify accepts an ECLI.'
+  - id: celex
+    name: CELEX / EUR-Lex document identifier
+    conforms: true
+    domain_standard_signature: true
+    evidence: 'mcp tool eurlex_lookup {celex, language}; a2a tool-schema/v1 eu.eurlex.lookup.properties.celex ("Shape: <sector><year><doctype><number>", examples 32016R0679, 62019CJ0311; a CELEX: prefix accepted) with a two-letter EUR-Lex language code defaulting to NL.'
+  - id: kbo-bce-enterprise-number
+    name: Belgian Crossroads Bank for Enterprises (KBO/BCE) enterprise number
+    conforms: true
+    domain_standard_signature: true
+    evidence: 'mcp tool kbo_lookup {enterprise_number: string, minLength 10, maxLength 16, "10 digits (dots/spaces ok)"}; a2a skill be.kbo.lookup with the same schema.'
+  - id: eu-vies-vat
+    name: EU VAT Information Exchange System (VIES) VAT number validation
+    conforms: true
+    domain_standard_signature: true
+    evidence: mcp tool vies_validate {vat} against the official EU VIES service; a2a skill be.vies.validate.
+  - id: iso-13616-iban
+    name: ISO 13616 IBAN (MOD-97 check digits)
+    conforms: true
+    domain_standard_signature: true
+    evidence: mcp tool iban_validate — "ISO 13616 check digits via MOD-97 + country length"; a2a skill iban.validate tagged source:deterministic.
+  - id: iso-4217
+    name: ISO 4217 currency codes
+    conforms: true
+    domain_standard_signature: true
+    evidence: >-
+      mcp tool ecb_rates {currency: ISO 4217 code}; a2a skill ecb.rates. Rates sourced from the ECB eurofxref-daily feed.
+  - id: justel-belgian-legislation-codes
+    name: Belgian consolidated-legislation code abbreviations (BW, WVV, WIB92, VCF, WBTW, WBE, Sw, Ger.W) resolved to Justel
+    conforms: true
+    domain_standard_signature: true
+    evidence: mcp tools legal_lookup {code, article} and legal_search; a2a skills be.legal.lookup and be.legal.search. Article-level Justel anchors on ejustice.just.fgov.be.
+  - id: wetten-overheid-nl
+    name: Dutch statute references (BW4, Successiewet 1956, Wet IB 2001, Wet OB 1968, BW6, Awb, Sr, Rv) resolved to wetten.overheid.nl
+    conforms: true
+    domain_standard_signature: true
+    evidence: mcp tool nl_legal_lookup {code, article}; a2a skill nl.legal.lookup.
+  - id: vcf-erfbelasting
+    name: Flemish Tax Code (VCF art. 2.7.4.1.1) inheritance-tax brackets
+    conforms: true
+    domain_standard_signature: true
+    evidence: mcp tool erfbelasting_tarieven — "parsed deterministically from the in-force Flemish Tax Code (VCF art. 2.7.4.1.1)"; a2a skill be.fiscal.erfbelasting tagged source:official-live and jurisdiction:BE-VLG.
+compliance_program:
+  certifications: []
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP or CSA STAR certification is claimed anywhere on the site;
+    /trust, trust.co-legal.be and security.co-legal.be do not exist. The published posture is a security and
+    data page (EU hosting, AES-256 at rest, TLS 1.3, RBAC, a subprocessor table, retention periods, an
+    incident-response timeline, a GDPR art. 28 DPA on request). No Compliance pointer is emitted.

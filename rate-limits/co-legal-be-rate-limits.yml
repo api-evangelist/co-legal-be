@@ -1,0 +1,63 @@
+generated: '2026-09-19'
+method: probed
+source: https://agent.co-legal.be/a2a/jsonrpc
+docs:
+- https://agent.co-legal.be/
+- https://co-legal.be/llms.txt
+- https://agent.co-legal.be/.well-known/payment-options.json
+limit_count: 2
+summary: >-
+  Anonymous callers get a per-IP token bucket the server advertises on every A2A response in BOTH the IETF
+  RateLimit-* fields and the legacy X-RateLimit-* fields: observed RateLimit-Limit 120, RateLimit-Remaining
+  119, RateLimit-Reset 0, X-RateLimit-Tier anon, X-RateLimit-Capacity 120 on a single tasks/list call. The
+  landing page states the sustained rate — 600 questions per hour per IP with a burst of 120 — and the
+  provider calls the policy "dynamic fair use" (limits may move; read the headers). Exhaustion is 429
+  RATE_LIMIT_EXCEEDED with Retry-After. An optional x-api-key raises the quota to a higher tier whose number
+  is not published. The IP is hashed (SHA-256 + per-process salt) for the bucket key. The MCP responses probed
+  did not carry rate-limit headers, though payment-options.json applies the same policy to the MCP endpoint.
+rate_limits:
+- name: Anonymous burst capacity per IP
+  scope: per-ip
+  tier: anon
+  limit: 120
+  window: burst (token bucket capacity)
+  metric: request
+  burst: 120
+  applies_to: [POST /a2a/jsonrpc]
+  headers_observed: {RateLimit-Limit: '120', RateLimit-Remaining: '119', RateLimit-Reset: '0', X-RateLimit-Tier: anon, X-RateLimit-Remaining: '119', X-RateLimit-Capacity: '120'}
+  source: 'observed live 2026-09-19 on POST https://agent.co-legal.be/a2a/jsonrpc (tasks/list, A2A-Version 1.0)'
+- name: Anonymous sustained rate per IP
+  scope: per-ip
+  tier: anon
+  limit: 600
+  window: 1h
+  metric: question
+  burst: 120
+  applies_to: [POST /a2a/jsonrpc]
+  source: 'https://agent.co-legal.be/ § Limits — "Anonymous callers: 600 questions per hour per IP (burst of 120)"'
+keyed_tier:
+  scope: per-api-key
+  limit: null
+  note: 'An optional x-api-key (or Authorization: Bearer) "verhoogt het quota" (llms.txt); the keyed ceiling is not published. Keys are issued by email.'
+size_and_time_limits:
+- {name: Question length, limit: 8000 characters, source: 'https://agent.co-legal.be/'}
+- {name: Answer length, limit: '~8192 output tokens', source: 'https://agent.co-legal.be/'}
+- {name: Fetched legal document (legal_read / be.legal.read), limit: '30,000 characters', source: tool description}
+- {name: Task state retention, limit: 24 h idle TTL, source: 'https://co-legal.be/legal'}
+headers:
+  ietf: [RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset]
+  legacy: [X-RateLimit-Tier, X-RateLimit-Remaining, X-RateLimit-Capacity]
+  on_exhaustion: [Retry-After]
+  request_id: x-request-id
+exhaustion:
+  status: 429
+  reason: RATE_LIMIT_EXCEEDED
+  headers: [Retry-After]
+  media_type: application/json (JSON-RPC error object)
+  observed: false
+  source: 'https://co-legal.be/llms.txt — "over de limiet volgt 429 RATE_LIMIT_EXCEEDED met Retry-After"'
+policies:
+- name: Dynamic fair use
+  description: payment-options.json declares rateLimitPolicy dynamic_fair_use for the free tier; the llms.txt says the current limit is on every response in the RateLimit-* and X-RateLimit-* headers, so clients should read the headers rather than hard-code 120/600.
+- name: Hashed IP bucket key
+  description: 'The bucket key is SHA-256(IP + per-process salt), not the raw address (https://co-legal.be/legal § Privacy — A2A-agent).'

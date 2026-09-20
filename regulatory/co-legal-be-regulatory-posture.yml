@@ -1,0 +1,183 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://co-legal.be/security
+docs:
+- https://co-legal.be/security
+- https://co-legal.be/legal
+- https://co-legal.be/platform-privacy
+- https://agent.co-legal.be/.well-known/agent-card.json
+signals:
+  accessibility_conformance:
+    url: https://co-legal.be/legal
+    section: Toegankelijkheidsverklaring
+    standard: [WCAG 2.2 AA]
+    kind: self-declared accessibility statement (not a VPAT or audited conformance report)
+    remediation_commitment: 'we behandelen het binnen 30 dagen en koppelen schriftelijk terug'
+    evidence:
+    - source: https://co-legal.be/legal
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: >-
+        "Co-Legal B.V. streeft naar conformiteit met WCAG 2.2 AA voor deze website. Concrete maatregelen:
+        Semantische HTML5 (heading-hierarchie, landmarks, ARIA waar nodig). Toetsenbord-navigeerbaar —
+        skip-link bovenaan elke pagina, zichtbare :focus-visible outlines. ... prefers-reduced-motion disable't
+        alle non-essentiële animaties. ... Komt u een toegankelijkheidsprobleem tegen? Mail
+        contact@co-legal.be — we behandelen het binnen 30 dagen en koppelen schriftelijk terug."
+    note: >-
+      A dated (page "Laatst bijgewerkt: 12 september 2026") statement naming the standard and level, listing
+      concrete measures and a feedback channel with a handling period — the shape the European Accessibility
+      Act asks for. It is a statement of intent ("streeft naar"), not an audit; /accessibility,
+      /accessibility/vpat and /toegankelijkheid all 404.
+  subprocessors:
+    url: https://co-legal.be/security
+    section: Onderverwerkers
+    dated: '2026-08-18'
+    scope: the Co-Legal partner platform, plus a paragraph each for the public A2A agent and the website assistant
+    entries:
+    - {vendor: Google Cloud, purpose: 'hosting, database, storage, KMS, secret store; embeddings, OCR, re-ranking and transcription (Vertex AI)', location: 'European Union (europe-west4)', data: all file data}
+    - {vendor: Anthropic (via Google Vertex AI), purpose: 'LLM reasoning of the file assistant (claude-opus-5)', location: 'European Union (Vertex EU multi-region)', data: 'document text, file and client names, retrieved fragments, chat attachments; nothing retained between turns; Google is the processor — no separate Anthropic relationship or API key'}
+    - {vendor: Google Vertex AI — transcription, purpose: transcribing a deliberately supplied meeting recording, location: 'European Union (europe-west4)', data: 'temporary audio file; OpenAI is not an active subprocessor'}
+    - {vendor: Wolters Kluwer (Jura, monKEY), purpose: legal/fiscal databases, location: EU, data: search queries formulated from file context}
+    - {vendor: Larcier-Intersentia (Stradalex), purpose: legal database, location: EU, data: idem}
+    - {vendor: Microsoft (Graph) — Word integration, purpose: open/edit a file document in Word, location: 'EU Data Boundary — the firm''s own Microsoft tenant', data: the content of the opened document, confined to one OneDrive folder}
+    - {vendor: Microsoft (Entra ID, Graph) — calendar, purpose: sign-in and free/busy status, location: EU Data Boundary, data: 'free/busy only; e-mail, mail sync and Teams intake are off'}
+    - {vendor: Cloudflare, purpose: edge delivery and network security for the website, location: null, data: 'source IP as edge provider (https://co-legal.be/legal)'}
+    evidence:
+    - source: https://co-legal.be/security
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'A four-column table "Onderverwerker | Wat | Waar | Welke data" with seven rows, followed by "De publieke A2A-agent op agent.co-legal.be gebruikt claude-opus-5 als managed partner-model via Google Cloud Vertex AI''s EU-multiregio."'
+    note: A dated, structured subprocessor table with purpose, location and data category per vendor — the substance, not the word. /legal/subprocessors and /subprocessors 404; the table lives on the security page.
+  incident_notification:
+    url: https://co-legal.be/security
+    section: Incident response
+    stated_sla: '4–24 u: melding aan getroffen partners met wat we weten'
+    dpa_stated_sla: 'incident-meldingen (binnen 24 u na ontdekking)'
+    timeline_verbatim:
+    - '0–4 u: interne triage, scope-bepaling, containment'
+    - '4–24 u: melding aan getroffen partners met wat we weten; het kantoor beslist voor cliëntdata over melding aan de GBA en betrokkenen'
+    - 'Binnen 72 u: alleen voor verwerkingen waarvoor Co-Legal zelf verwerkingsverantwoordelijke is, beoordelen en zo nodig melden aan de Nederlandse Autoriteit Persoonsgegevens conform AVG art. 33'
+    - 'Postmortem: binnen 14 dagen schriftelijke analyse + remediatie-plan voor partners'
+    evidence:
+    - source: https://co-legal.be/security
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Bij ontdekking van een security-incident (datalek, ongeoorloofde toegang, aanhoudende service-disruptie met data-impact): 0–4 u ... 4–24 u ... Binnen 72 u ... Postmortem: binnen 14 dagen'
+    note: >-
+      A published incident-notification timeline with a stated partner-notification window, plus a DPA
+      (GDPR art. 28) that the page says covers "incident-meldingen (binnen 24 u na ontdekking)". The DPA text
+      itself is available only on request (mailto), so it is not recorded as a published document; the
+      commitment on the public page is.
+  data_subject_request:
+    url: https://co-legal.be/legal
+    section: Uw GDPR-rechten
+    channel: 'mailto:contact@co-legal.be?subject=GDPR-verzoek'
+    stated_sla: 'We streven naar een eerste reactie binnen 5 werkdagen. Voor de afhandeling van een verzoek tot uitoefening van uw AVG-rechten geldt in beginsel een termijn van één maand.'
+    rights_named: [inzage, rectificatie, verwijdering, beperking van verwerking, dataportabiliteit, bezwaar]
+    controller_processor_split: 'Partner firms are controller and Co-Legal processor (art. 28 AVG); their clients exercise rights via the firm.'
+    evidence:
+    - source: https://co-legal.be/legal
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'U heeft conform GDPR de rechten op inzage, rectificatie, verwijdering, beperking van verwerking, dataportabiliteit en bezwaar. ... mail contact@co-legal.be. We streven naar een eerste reactie binnen 5 werkdagen.'
+    - source: https://co-legal.be/security
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Heeft u een GDPR-recht (inzage, rectificatie, verwijdering, dataportabiliteit) dat u wil uitoefenen — stuur de aanvraag naar hetzelfde adres. We antwoorden binnen 5 werkdagen.'
+    note: A documented process with a channel, the rights enumerated and two stated periods. It is a section of the terms/privacy page, not a dedicated intake form (/privacy/requests 404), and no API endpoint exists for it.
+  data_residency:
+    url: https://co-legal.be/security
+    section: EU-hosting / Hosting & netwerk
+    regions: [eu]
+    stated_regions: ['Google Cloud europe-west4', 'Vertex AI EU multi-region', 'Microsoft EU Data Boundary']
+    machine_readable: 'agent card extension https://agent.co-legal.be/a2a/extensions/model-disclosure/v1 params.processingRegion = "EU"'
+    region_selection: false
+    cmek: 'customer-managed encryption keys configured per partner on request'
+    evidence:
+    - source: https://co-legal.be/security
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Hosting, opslag en modelverwerking van de dossier-, website- én publieke agent draaien binnen de EU. ... Backend, database en document-storage staan in dezelfde EU-regio. ... Cloud SQL in europe-west4'
+    - source: https://agent.co-legal.be/.well-known/agent-card.json
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: '{"model":"claude-opus-5","modelProvider":"Anthropic via Google Cloud Vertex AI","processingRegion":"EU"}'
+    note: >-
+      Recorded as a residency COMMITMENT (EU-only processing stated as a guarantee for all three services, with
+      named regions and a CMEK option) rather than a mere location disclosure; there is no region choice
+      because there is only one region. /docs/data-residency 404 — the statement lives on the security page
+      and, machine-readably, in the agent card.
+  ai_transparency:
+    url: https://agent.co-legal.be/.well-known/agent-card.json
+    section: capabilities.extensions[] model-disclosure/v1
+    disclosed: {model: claude-opus-5, modelProvider: Anthropic via Google Cloud Vertex AI, processingRegion: EU}
+    human_readable: [https://co-legal.be/legal, https://co-legal.be/security, https://agent.co-legal.be/legal/terms]
+    evidence:
+    - source: https://agent.co-legal.be/.well-known/agent-card.json
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: '"uri":"https://agent.co-legal.be/a2a/extensions/model-disclosure/v1" ... "params":{"model":"claude-opus-5","modelProvider":"Anthropic via Google Cloud Vertex AI","processingRegion":"EU"}'
+    - source: https://co-legal.be/legal
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Uw vragen worden in real-time verwerkt door Claude Opus 5 (claude-opus-5) via Google Cloud Vertex AI''s EU-multiregio. De agent gebruikt daarvoor de eigen Cloud Run-serviceaccount en geen OpenAI- of Anthropic-API-sleutel.'
+    - source: https://agent.co-legal.be/legal/terms
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'A public, read-only AI agent that gives INFORMATIONAL answers ... It is a source of legal INFORMATION, not legal ADVICE. ... Using this agent creates NO attorney-client (advocaat-cliënt) relationship.'
+    note: >-
+      Substantive and unusually machine-readable: the model, the model provider, the hosting route and the
+      processing region are declared inside the signed agent card as a named extension, and every user-facing
+      surface states that the counterparty is an AI, that output is informational, and that a human
+      professional must review it. This is the substance of an AI-interaction disclosure (EU AI Act art. 50
+      shape), not a marketing mention.
+  global_privacy_control:
+    honored: true
+    url: https://co-legal.be/legal
+    section: Privacy — website
+    scope: the website's aggregated action counters (contact CTA, e-mail draft, completed chat answer); the site sets no cookies and runs no analytics or advertising
+    evidence:
+    - source: https://co-legal.be/legal
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'De actie-oproepen hebben geen body of querystring, worden niet verstuurd wanneer Global Privacy Control aan staat of de browser Do Not Track: 1 meldt, en falen stil als ze worden geblokkeerd.'
+    note: Set from the published statement only; no Sec-GPC header was sent. The commitment is narrow because there is little to opt out of — no cookies, no cross-site tracking, no sale — but it is an explicit, named GPC (and DNT) commitment.
+  exit_assistance:
+    url: https://co-legal.be/security
+    section: Retentie
+    stated: 'Bij beëindiging krijgt de partner een gestructureerde export; de live data wordt standaard binnen 30 dagen verwijderd en back-ups verlopen binnen de afgesproken cyclus.'
+    scope: the partner platform (not the public agent, which holds no customer data)
+    evidence:
+    - source: https://co-legal.be/security
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Bij beëindiging krijgt de partner een gestructureerde export; de live data wordt standaard binnen 30 dagen verwijderd'
+    - source: https://co-legal.be/platform-privacy
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Na beëindiging van de overeenkomst wordt de data op verzoek van het kantoor geëxporteerd en daarna verwijderd; back-ups verdwijnen mee binnen de back-upcyclus.'
+    note: An export-at-termination commitment with a deletion window, and the DPA is said to carry data-portability guarantees. No export format or API is documented, so this is a policy signal rather than a self-serve switching tool.
+probed_absent:
+- signal: sbom
+  urls:
+  - {url: 'https://co-legal.be/security/sbom', status: 404}
+  note: No bill of materials published. The platform-privacy page describes weekly dependency-vulnerability scans, daily leaked-secret scans and container scans, but names no SBOM format. Never derived — search only.
+- signal: support_lifetime
+  urls:
+  - {url: 'https://co-legal.be/changelog', status: 404}
+  - {url: 'https://co-legal.be/docs', status: 404}
+  note: No stated support period for the agent, the protocol versions or the platform.
+- signal: training_data_summary
+  note: The provider discloses which third-party model it consumes and that nothing is retained between turns at the model provider; it publishes no training-data summary of its own, and none is expected from a model consumer.
+- signal: age_assurance
+  note: Not documented; the services are sold to professional firms and the public agent answers anonymous informational questions.
+- signal: notice_and_action
+  urls:
+  - {url: 'https://co-legal.be/legal/report-content', status: 404}
+  note: The editorial page (/redactie) offers a correction channel for knowledge-base content by email; there is no notice-and-action procedure for user-generated content because the site hosts none.
+- signal: transparency_report
+  urls:
+  - {url: 'https://co-legal.be/transparency', status: 404}
+- signal: dpa_published
+  note: The GDPR art. 28 DPA template is "op aanvraag beschikbaar" by email; a DPA behind a request is not a published document and is not recorded as one.

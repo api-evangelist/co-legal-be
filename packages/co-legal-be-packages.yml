@@ -1,0 +1,18 @@
+generated: '2026-09-19'
+method: searched
+source: registry searches 2026-09-19
+package_count: 0
+packages: []
+searched:
+- {registry: npm, query: 'https://registry.npmjs.org/-/v1/search?text=co-legal&size=5', result: 'no first-party package — the top hit @ever-co/legal is an unrelated Ever Technologies corpus'}
+- {registry: npm, query: 'https://registry.npmjs.org/@co-legal%2fmcp', status: 404}
+- {registry: npm, query: 'https://registry.npmjs.org/colegal', status: 404}
+- {registry: pypi, query: 'https://pypi.org/pypi/co-legal/json', status: 404}
+- {registry: pypi, query: 'https://pypi.org/pypi/colegal/json', status: 404}
+- {registry: github-org, query: 'https://api.github.com/orgs/Co-legal', result: 'organisation exists (created 2026-03-16) with 0 public repositories, no name, blog or description — cannot be confirmed as this company and holds nothing public; not linked'}
+- {registry: github-search, query: 'https://api.github.com/search/repositories?q=co-legal.be+in:readme,description', result: 'no relevant repository'}
+note: >-
+  Co-Legal publishes no client library, CLI or SDK in any registry searched, and neither llms.txt references
+  one — the documented way in is A2A JSON-RPC or MCP over Streamable HTTP, both plain HTTPS. The /legal page
+  says the open-source parts of the stack (signer, JSON-RPC handler, test suite) are "code op aanvraag
+  (contact@co-legal.be)", i.e. on request, not published. No SDKs pointer is emitted.
