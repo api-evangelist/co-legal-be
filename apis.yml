@@ -1,5 +1,5 @@
 aid: co-legal-be
-name: Co-Legal B.V.
+name: Co-Legal
 description: >-
   Co-Legal B.V. is a Dutch company (KvK 42135345, Delft) building AI-native legal software and dossier
   support for Belgian and cross-border Belgium–Netherlands matters — wealth planning and succession, company
@@ -37,7 +37,7 @@ tags:
 - European Union
 - A2A
 - MCP
-- agent-native
+- Agent-Native
 - Artificial Intelligence
 - Legal Tech
 tags_raw:
@@ -56,6 +56,7 @@ tags_raw:
 - Agent-native
 - AI
 - Legal tech
+- agent-native
 apis:
 - aid: co-legal-be:co-legal-public-assistant-a2a-agent
   name: Co-Legal Public Assistant (A2A Agent)
@@ -74,7 +75,7 @@ apis:
   baseURL: https://agent.co-legal.be/a2a/jsonrpc
   tags:
   - A2A
-  - agent-native
+  - Agent-Native
   - Legal Research
   - Tax
   - Case Law
@@ -84,6 +85,7 @@ apis:
   - Legal research
   - Tax
   - Case law
+  - agent-native
   properties:
   - type: AgentCard
     url: a2a/co-legal-be-a2a.yml
@@ -116,7 +118,7 @@ apis:
   baseURL: https://agent.co-legal.be/mcp
   tags:
   - MCP
-  - agent-native
+  - Agent-Native
   - Legal Research
   - Company Registry
   - VAT Validation
@@ -126,6 +128,7 @@ apis:
   - Legal research
   - Company registry
   - VAT validation
+  - agent-native
   properties:
   - type: MCPServer
     url: mcp/co-legal-be-mcp.yml
@@ -238,3 +241,11 @@ x-enrichment:
   status: enriched
   artifacts_added: 31
   pass: local-v3
+x-legal-name: Co-Legal B.V.
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://agent.co-legal.be/.well-known/agent-card.json"
+  grade: "flavored"
+  protocol_version: "1.0"
+  control: 404
