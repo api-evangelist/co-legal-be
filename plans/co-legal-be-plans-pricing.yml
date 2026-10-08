@@ -58,3 +58,16 @@ platform:
   name: Co·Legal partner platform (private dossier environment)
   price: not published — proposal per firm
   source: 'https://co-legal.be/veelgestelde-vragen — "Wat kost het platform? Een platformprijs is niet publiek vastgelegd."'
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units: []
+  plans:
+  - name: Free (anonymous fair use)
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
