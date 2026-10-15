@@ -1,0 +1,75 @@
+edges:
+- partner_name: A2A protocol (own Agent Card)
+  partner: null
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: A2A agent
+  evidence: https://agent.co-legal.be/.well-known/agent-card.json
+  channel: provider-built
+  relationship: compatible
+  shape: a2a
+  evidence_kind: own-wellknown
+  degree: conformant
+  report_only: true
+  a2a_card:
+    grade: conformant
+    verdict: live
+    protocol_version: '1.0'
+    deviations: []
+    card_subject: unknown
+  contract_reference:
+    register: provider's own /.well-known/agent-card.json
+    spec_file: null
+    standard: A2A
+    role: a2a-agent-card
+    registered_name: colegal-public-assistant
+    organization: Co-Legal B.V.
+    matched_domain: co-legal.be
+    matched_by: own-domain
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-15'
+  detected_by: sweep-ai-agents.py
+  first_seen: '2026-10-15'
+- partner_name: a2aregistry.org
+  partner: null
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: A2A agent registry
+  evidence: https://a2aregistry.org/api/agents/125be81b-7326-41cd-85a2-7e0c2aa031b8
+  channel: standard-directory
+  relationship: compatible
+  shape: a2a
+  evidence_kind: register-listing
+  degree: listed
+  report_only: true
+  a2a_register:
+    hosts:
+    - co-legal.be
+    conformance: true
+    task_conformance_working: true
+    healthy: true
+    signal_note: booleans over the provider's hosts; listings are context, never read
+  contract_reference:
+    register: a2aregistry.org /api/agents
+    spec_file: null
+    standard: A2A
+    role: a2a-registry-listing
+    registered_name: Co-Legal B.V.
+    matched_domain: co-legal.be
+    matched_by: domain+repo-name
+    matched_via: card-host
+    listings_context: 1
+    sample_agents:
+    - colegal-public-assistant
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-15'
+  detected_by: sweep-ai-agents.py
+  first_seen: '2026-10-15'
+generated: '2026-10-15'
+method: searched
+source:
+- https://a2aregistry.org/api/agents
+checked:
+- https://a2aregistry.org/api/agents
