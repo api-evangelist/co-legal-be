@@ -9,13 +9,6 @@
       "method": "none"
     },
     {
-      "source": "https://co-legal.be/contact",
-      "feed_url": "https://co-legal.be/feed.xml",
-      "title": "",
-      "saved": 0,
-      "method": "discovered"
-    },
-    {
       "source": "https://co-legal.be/feed.xml",
       "feed_url": "https://co-legal.be/feed.xml",
       "title": "",
@@ -23,6 +16,6 @@
       "method": "feed"
     }
   ],
-  "post_count": 38,
-  "fetched": "2026-10-03T12:30:02Z"
+  "post_count": 39,
+  "fetched": "2026-10-10T13:15:00Z"
 }
