@@ -212,3 +212,52 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools:
+- name: kbo_lookup
+  description: Look up a Belgian company by its KBO/BCE enterprise number (10 digits, e.g. 0403.170.701).
+    Returns the official name, status, legal form and start date from the public KBO register, with the
+    source URL.
+- name: vies_validate
+  description: 'Validate an EU VAT number against the official EU VIES service. Returns validity plus,
+    where the member state exposes it, the registered trade name and address. Example: BE0403170701.'
+- name: ecli_lookup
+  description: 'Resolve a Belgian ECLI (European Case Law Identifier) to canonical public lookup URLs
+    (EU e-Justice + Juportal) plus court metadata. Example: ECLI:BE:CASS:2020:ARR.20200101.1.'
+- name: eurlex_lookup
+  description: 'Resolve an EU CELEX number to its canonical EUR-Lex landing URL plus metadata (sector,
+    document type). Example: 32016R0679 (GDPR).'
+- name: erfbelasting_tarieven
+  description: 'Flemish inheritance-tax (erfbelasting) rate brackets, parsed deterministically from the
+    in-force Flemish Tax Code (VCF art. 2.7.4.1.1) — for ALL heir categories: direct line & partners,
+    siblings, and others. Omit `categorie` to get all three. Use this instead of reciting rates from memory.'
+- name: legal_lookup
+  description: 'Resolve a Belgian legislation reference to its canonical Justel URL. Give the code (BW,
+    WVV, WIB92, VCF, WBTW, WBE, Sw, Ger.W) and optionally the article number. Example: code=BW, article=4.71.'
+- name: legal_search
+  description: Keyword-search Belgian legislation on Justel and return a search URL plus relevant code
+    hints. Use when you don't know the exact reference.
+- name: legal_read
+  description: Fetch and clean the full text of an official Belgian or European legal document (HTML or
+    PDF) from a URL on the allowlist of official sources (e.g. ejustice.just.fgov.be, eur-lex.europa.eu).
+    Capped at 30,000 characters. Pair with legal_lookup / eurlex_lookup to get the URL first.
+- name: nl_legal_lookup
+  description: 'Resolve a Dutch statute reference to its wetten.overheid.nl URL. Give the code (BW4, Successiewet,
+    Wet IB 2001, Wet OB 1968, BW6, Awb, Sr, Rv) and optionally an article. Example: code=BW4, article=4:63.'
+- name: nl_rechtspraak_lookup
+  description: 'Resolve a Dutch ECLI to canonical case-law URLs (Rechtspraak.nl details, the free Open
+    Data content API, and EU e-Justice). Example: ECLI:NL:HR:2021:1102.'
+- name: iban_validate
+  description: Validate an IBAN's structure (ISO 13616 check digits via MOD-97 + country length). Pure
+    compute; confirms well-formedness, not that the account exists or is active.
+- name: ecb_rates
+  description: Return the official daily ECB euro reference rate 1 EUR = X currency for a given ISO 4217
+    code (e.g. USD, GBP, CHF).
+- name: erfkompas_flows
+  description: List eight Belgian Successiekompas scans. All intakes can be guided with erfkompas_step;
+    inheritance-tax requires the secure website.
+- name: erfkompas_step
+  description: Advance one Belgian scan with answers explicitly confirmed by the user. Ask each missing
+    question, reuse the returned state, and show the deterministic result. Never infer answers. Obtain
+    user consent before sending their choices to Successiekompas. No case is stored. Inheritance-tax calculations
+    and AI follow-up require the secure website.
+tools_count: 14
