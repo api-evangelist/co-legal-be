@@ -1,4 +1,4 @@
-# Co-Legal B.V.
+# Co-Legal
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,5 +64,116 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Co-Legal B.V. is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://co-legal.be/
+Co-Legal B.V. is a Dutch company (KvK 42135345, Delft) building AI-native legal software and dossier support for Belgian and cross-border Belgium–Netherlands matters — wealth planning and succession, company law and transactions, tax and finance, real estate — sold to law firms, notaries, accountants and tax advisers by proposal, with the private platform behind Cloudflare Access and Microsoft Entra. Alongside it Co-Legal runs a public, free, anonymous, read-only agent at agent.co-legal.be for informational Belgian and Dutch legal and fiscal source questions: an A2A 1.0 agent card signed with JWS ES256 (verifiable against a published JWKS) declaring 17 skills — KBO/BCE company lookup, EU VIES VAT validation, Belgian and Dutch ECLI case-law resolvers, EUR-Lex/CELEX and Justel/wetten.overheid.nl statute resolvers, Flemish inheritance-tax brackets, ECB reference rates, IBAN validation, public legal-corpus search and read, a citation verifier, DOCX concept drafting and a natural-language answer skill — and a remote MCP server at https://agent.co-legal.be/mcp that answers an anonymous tools/list with 12 of those as read-only, idempotent tools. Everything runs on Google Cloud in the EU with the model (claude-opus-5 via Vertex AI) disclosed inside the card. No OpenAPI is published; the MCP tools/list and the card's tool-schema extension are the machine-readable contract.
+
+**Areas:** Legal · Legal Research · Tax · Case Law · Legislation · Company Registry · VAT Validation · Belgium · Netherlands · European Union · A2A · MCP
+
+## Co-Legal on APIs.io
+
+Everything profiled for Co-Legal is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/co-legal-be/](https://apis.io/providers/co-legal-be/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [Co-Legal Public Assistant (A2A Agent)](https://apis.io/apis/co-legal-be/co-legal-public-assistant-a2a-agent/) — Agent2Agent 1.0 surface of Co-Legal's public legal/fiscal assistant. The agent card at https://agent.co-legal.be/.well-known/agent-card.json (version…
+- [Co-Legal Legal Lookup MCP Server](https://apis.io/apis/co-legal-be/co-legal-legal-lookup-mcp-server/) — Remote Model Context Protocol server at https://agent.co-legal.be/mcp (Streamable HTTP, POST only, negotiated protocol version 2025-06-18, serverInfo…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (2)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [co-legal-be-mcp.yml](https://apis.io/servers/co-legal-be/co-legal-be-mcp-yml/)
+- [MCP discovery pointer](https://apis.io/servers/co-legal-be/mcp-discovery-pointer/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Co Legal Be Authentication](https://apis.io/security/co-legal-be/co-legal-be-authentication/)
+- [Co Legal Be Domain Security](https://apis.io/security/co-legal-be/co-legal-be-domain-security/)
+- [Co Legal Be Vulnerability Disclosure](https://apis.io/security/co-legal-be/co-legal-be-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Co Legal Be Plans Pricing](https://apis.io/plans/co-legal-be/co-legal-be-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Co Legal Be Rate Limits](https://apis.io/rate-limits/co-legal-be/co-legal-be-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://co-legal.be/)
+- [Documentation](https://co-legal.be/agent)
+- [Getting started](https://agent.co-legal.be/)
+- [API reference](https://agent.co-legal.be/.well-known/agent-card.json)
+- [Pricing](https://agent.co-legal.be/.well-known/payment-options.json)
+- [Support](https://co-legal.be/contact)
+- [Blog](https://co-legal.be/blog)
+- [Security](https://co-legal.be/security)
+- [Terms of service](https://co-legal.be/legal)
+- [Privacy policy](https://co-legal.be/legal)
+
+## API Evangelist rating
+
+**Kin Score 42.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 52.6 |
+
+**Agent readiness 18.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 57.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/co-legal-be/](https://apis.io/providers/co-legal-be/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Co-Legal: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/co-legal-be/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
